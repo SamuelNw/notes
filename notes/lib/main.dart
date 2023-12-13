@@ -14,7 +14,7 @@ void main() {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginView(),
+      home: const RegisterView(),
     ),
   );
 }
@@ -79,10 +79,17 @@ class _RegisterViewState extends State<RegisterView> {
                     onPressed: () async {
                       final email = _email.text;
                       final password = _password.text;
-                      final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                        email: email,
-                        password: password,
-                      );
+                      try {
+                        final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                          email: email,
+                          password: password,
+                        );
+                        print(userCredential);
+                      } on FirebaseAuthException catch (e) {
+                        print(e.code);
+                      } catch (e) {
+                        print("SOMETHING ELSE HAPPENED");
+                      }
                     },
                     child: const Text("Register"),
                   ),
