@@ -86,7 +86,11 @@ class _RegisterViewState extends State<RegisterView> {
                         );
                         print(userCredential);
                       } on FirebaseAuthException catch (e) {
-                        print(e.code);
+                        if (e.code == "email-already-in-use") {
+                          print("User already exists.");
+                        } else if (e.code == "weak-password") {
+                          print("Weak Password");
+                        }
                       } catch (e) {
                         print("SOMETHING ELSE HAPPENED");
                       }
