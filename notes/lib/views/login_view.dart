@@ -55,15 +55,24 @@ class _LoginViewState extends State<LoginView> {
               final email = _email.text;
               final password = _password.text;
               try {
-                final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                await FirebaseAuth.instance.signInWithEmailAndPassword(
                   email: email,
                   password: password,
                 );
-                print(userCredential);
-              } on FirebaseAuthException catch (e) {
-                print("Invalid Credentials Provided.");
+              } on FirebaseAuthException {
+                // ignore: use_build_context_synchronously
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Invalid Credentials Provided."),
+                  ),
+                );
               } catch (e) {
-                print("SOMETHING ELSE HAPPENED!");
+                // ignore: use_build_context_synchronously
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("An error occurred. Try again later."),
+                  ),
+                );
               }
             },
             child: const Text("Sign In"),
