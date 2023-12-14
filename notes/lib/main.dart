@@ -46,7 +46,7 @@ class HomePage extends StatelessWidget {
               // } else {
               //   return const VerifyEmailView();
               // }
-              return const LoginView();
+              return const RegisterView();
             default:
               return const Text("Loading...");
           }
