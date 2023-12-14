@@ -55,19 +55,33 @@ class _RegisterViewState extends State<RegisterView> {
               final email = _email.text;
               final password = _password.text;
               try {
-                final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                await FirebaseAuth.instance.createUserWithEmailAndPassword(
                   email: email,
                   password: password,
                 );
-                print(userCredential);
               } on FirebaseAuthException catch (e) {
                 if (e.code == "email-already-in-use") {
-                  print("User already exists.");
+                  // ignore: use_build_context_synchronously
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("User already exists."),
+                    ),
+                  );
                 } else if (e.code == "weak-password") {
-                  print("Weak Password");
+                  // ignore: use_build_context_synchronously
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Weak Password."),
+                    ),
+                  );
                 }
               } catch (e) {
-                print("SOMETHING ELSE HAPPENED");
+                // ignore: use_build_context_synchronously
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("An error occured, try again later."),
+                  ),
+                );
               }
             },
             child: const Text("Register"),
