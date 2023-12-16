@@ -40,15 +40,36 @@ class HomePage extends StatelessWidget {
             if (user != null) {
               if (!user.emailVerified) {
                 return const VerifyEmailView();
+              } else {
+                return const NotesView();
               }
             } else {
               return const LoginView();
             }
-            return const Text("Home Screen!");
           default:
             return const CircularProgressIndicator();
         }
       },
+    );
+  }
+}
+
+class NotesView extends StatefulWidget {
+  const NotesView({super.key});
+
+  @override
+  State<NotesView> createState() => _NotesViewState();
+}
+
+class _NotesViewState extends State<NotesView> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Main UI"),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      ),
+      body: const Text("My Notes"),
     );
   }
 }
