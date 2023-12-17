@@ -5,6 +5,7 @@ import 'package:notes/views/login_view.dart';
 import 'package:notes/views/register_view.dart';
 import 'package:notes/views/verify_email.dart';
 import 'firebase_options.dart';
+import "dart:developer" as devtools show log;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,6 +55,10 @@ class HomePage extends StatelessWidget {
   }
 }
 
+enum MenuAction {
+  logout
+}
+
 class NotesView extends StatefulWidget {
   const NotesView({super.key});
 
@@ -68,6 +73,21 @@ class _NotesViewState extends State<NotesView> {
       appBar: AppBar(
         title: const Text("Main UI"),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          PopupMenuButton<MenuAction>(
+            onSelected: (value) {
+              devtools.log(value.toString());
+            },
+            itemBuilder: (context) {
+              return const [
+                PopupMenuItem<MenuAction>(
+                  value: MenuAction.logout,
+                  child: Text("Log out"),
+                )
+              ];
+            },
+          )
+        ],
       ),
       body: const Text("My Notes"),
     );
