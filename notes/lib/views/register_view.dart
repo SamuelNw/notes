@@ -64,6 +64,12 @@ class _RegisterViewState extends State<RegisterView> {
                   email: email,
                   password: password,
                 );
+                // ignore: use_build_context_synchronously
+                Navigator.of(context).pushNamed(
+                  verifyEmailRoute,
+                );
+                final user = FirebaseAuth.instance.currentUser;
+                await user?.sendEmailVerification();
               } on FirebaseAuthException catch (e) {
                 if (e.code == "email-already-in-use") {
                   // ignore: use_build_context_synchronously
