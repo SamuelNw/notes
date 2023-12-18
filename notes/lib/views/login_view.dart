@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notes/constants/routes.dart';
+import 'package:notes/utilities/show_error_dialog.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -67,17 +68,15 @@ class _LoginViewState extends State<LoginView> {
                 );
               } on FirebaseAuthException {
                 // ignore: use_build_context_synchronously
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Invalid Credentials Provided."),
-                  ),
+                await showErrorDialog(
+                  context,
+                  "Invalid Credentials Provided.",
                 );
               } catch (e) {
                 // ignore: use_build_context_synchronously
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("An error occurred. Try again later."),
-                  ),
+                await showErrorDialog(
+                  context,
+                  "An error occurred. Try again later.",
                 );
               }
             },
