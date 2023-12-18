@@ -56,6 +56,9 @@ class _RegisterViewState extends State<RegisterView> {
             onPressed: () async {
               final email = _email.text;
               final password = _password.text;
+              if (email.isEmpty || password.isEmpty) {
+                showErrorDialog(context, "Fields cant be empty");
+              }
               try {
                 await FirebaseAuth.instance.createUserWithEmailAndPassword(
                   email: email,
