@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notes/constants/routes.dart';
+import 'package:notes/utilities/show_error_dialog.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -63,25 +64,22 @@ class _RegisterViewState extends State<RegisterView> {
               } on FirebaseAuthException catch (e) {
                 if (e.code == "email-already-in-use") {
                   // ignore: use_build_context_synchronously
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("User already exists."),
-                    ),
+                  await showErrorDialog(
+                    context,
+                    "User already exits.",
                   );
                 } else if (e.code == "weak-password") {
                   // ignore: use_build_context_synchronously
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Weak Password."),
-                    ),
+                  await showErrorDialog(
+                    context,
+                    "Weak Password.",
                   );
                 }
               } catch (e) {
                 // ignore: use_build_context_synchronously
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("An error occured, try again later."),
-                  ),
+                await showErrorDialog(
+                  context,
+                  "An error occured, try again later.",
                 );
               }
             },
