@@ -61,11 +61,20 @@ class _LoginViewState extends State<LoginView> {
                   email: email,
                   password: password,
                 );
-                // ignore: use_build_context_synchronously
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  "/notes/",
-                  (route) => false,
-                );
+                final user = await FirebaseAuth.instance.currentUser;
+                if (user?.emailVerified ?? false) {
+                  // current user is verified:
+                  // ignore: use_build_context_synchronously
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    "/notes/",
+                    (route) => false,
+                  );
+                } else {
+                  // ignore: use_build_context_synchronously
+                  Navigator.of(context).pushNamed(
+                    verifyEmailRoute,
+                  );
+                }
               } on FirebaseAuthException {
                 // ignore: use_build_context_synchronously
                 await showErrorDialog(
