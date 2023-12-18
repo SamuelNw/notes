@@ -61,7 +61,7 @@ class _LoginViewState extends State<LoginView> {
                   email: email,
                   password: password,
                 );
-                final user = await FirebaseAuth.instance.currentUser;
+                final user = FirebaseAuth.instance.currentUser;
                 if (user?.emailVerified ?? false) {
                   // current user is verified:
                   // ignore: use_build_context_synchronously
