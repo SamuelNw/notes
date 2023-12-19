@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notes/constants/routes.dart';
+import 'package:notes/services/auth/auth_exceptions.dart';
+import 'package:notes/services/auth/auth_service.dart';
 import 'package:notes/utilities/show_error_dialog.dart';
 
 class LoginView extends StatefulWidget {
@@ -57,12 +58,12 @@ class _LoginViewState extends State<LoginView> {
               final email = _email.text;
               final password = _password.text;
               try {
-                await FirebaseAuth.instance.signInWithEmailAndPassword(
+                await AuthService.firebase().logIn(
                   email: email,
                   password: password,
                 );
-                final user = FirebaseAuth.instance.currentUser;
-                if (user?.emailVerified ?? false) {
+                final user = AuthService.firebase().currentUser;
+                if (user?.isEmailVerified ?? false) {
                   // current user is verified:
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).pushNamedAndRemoveUntil(
@@ -75,13 +76,13 @@ class _LoginViewState extends State<LoginView> {
                     verifyEmailRoute,
                   );
                 }
-              } on FirebaseAuthException {
+              } on InvalidCredentialsAuthException {
                 // ignore: use_build_context_synchronously
                 await showErrorDialog(
                   context,
                   "Invalid Credentials Provided.",
                 );
-              } catch (e) {
+              } on GenericAuthException {
                 // ignore: use_build_context_synchronously
                 await showErrorDialog(
                   context,
