@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notes/constants/routes.dart';
+import 'package:notes/services/auth/auth_exceptions.dart';
+import 'package:notes/services/auth/auth_service.dart';
 import 'package:notes/utilities/show_error_dialog.dart';
 
 class RegisterView extends StatefulWidget {
@@ -60,7 +61,7 @@ class _RegisterViewState extends State<RegisterView> {
                 showErrorDialog(context, "Fields cant be empty");
               }
               try {
-                await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                await AuthService.firebase().createUser(
                   email: email,
                   password: password,
                 );
@@ -68,23 +69,20 @@ class _RegisterViewState extends State<RegisterView> {
                 Navigator.of(context).pushNamed(
                   verifyEmailRoute,
                 );
-                final user = FirebaseAuth.instance.currentUser;
-                await user?.sendEmailVerification();
-              } on FirebaseAuthException catch (e) {
-                if (e.code == "email-already-in-use") {
-                  // ignore: use_build_context_synchronously
-                  await showErrorDialog(
-                    context,
-                    "User already exits.",
-                  );
-                } else if (e.code == "weak-password") {
-                  // ignore: use_build_context_synchronously
-                  await showErrorDialog(
-                    context,
-                    "Weak Password.",
-                  );
-                }
-              } catch (e) {
+                await AuthService.firebase().sendVerificationEmail();
+              } on EmailAlreadyInUseAuthException {
+                // ignore: use_build_context_synchronously
+                await showErrorDialog(
+                  context,
+                  "User already exits.",
+                );
+              } on WeakPasswordAuthException {
+                // ignore: use_build_context_synchronously
+                await showErrorDialog(
+                  context,
+                  "Weak Password.",
+                );
+              } on GenericAuthException {
                 // ignore: use_build_context_synchronously
                 await showErrorDialog(
                   context,
