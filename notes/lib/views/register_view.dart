@@ -57,9 +57,6 @@ class _RegisterViewState extends State<RegisterView> {
             onPressed: () async {
               final email = _email.text;
               final password = _password.text;
-              if (email.isEmpty || password.isEmpty) {
-                showErrorDialog(context, "Fields cant be empty");
-              }
               try {
                 await AuthService.firebase().createUser(
                   email: email,
@@ -83,11 +80,19 @@ class _RegisterViewState extends State<RegisterView> {
                   "Weak Password.",
                 );
               } on GenericAuthException {
-                // ignore: use_build_context_synchronously
-                await showErrorDialog(
-                  context,
-                  "An error occured, try again later.",
-                );
+                if (email.isEmpty || password.isEmpty) {
+                  // ignore: use_build_context_synchronously
+                  await showErrorDialog(
+                    context,
+                    "Fields cant be empty",
+                  );
+                } else {
+                  // ignore: use_build_context_synchronously
+                  await showErrorDialog(
+                    context,
+                    "An error occured, try again later.",
+                  );
+                }
               }
             },
             child: const Text("Register"),
