@@ -36,4 +36,7 @@ class AuthService implements FirebaseAuthProvider {
 
   @override
   Future<void> sendVerificationEmail() => provider.sendVerificationEmail();
+
+  @override
+  Future<void> initialize() => provider.initialize();
 }
