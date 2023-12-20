@@ -45,6 +45,15 @@ class DatabaseNote {
         userId = map[userIdColumn] as int,
         text = map[textColumn] as String,
         isSyncedWithCloud = (map[isSyncedWithCloudColoumn] as int) == 1 ? true : false;
+
+  @override
+  String toString() => "Note ID = $id, userId = $userId, isSyncedWithCloud = $isSyncedWithCloud,";
+
+  @override
+  bool operator ==(covariant DatabaseNote other) => id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 const idColumn = "id";
