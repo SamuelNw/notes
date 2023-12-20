@@ -22,6 +22,14 @@ class CouldNotFindNoteException implements Exception {}
 class NoteService {
   Database? _db;
 
+  // Fetch all notes:
+  Future<Iterable<DatabaseNote>> getAllNotes() async {
+    final db = _getDatabaseOrThrow();
+    final notes = await db.query(noteTable);
+
+    return notes.map((noteRow) => DatabaseNote.fromRow(noteRow));
+  }
+
   // Fetch particular note:
   Future<DatabaseNote> getNote({required int id}) async {
     final db = _getDatabaseOrThrow();
