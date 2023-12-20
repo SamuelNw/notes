@@ -13,8 +13,28 @@ class CouldNotDeleteUserException implements Exception {}
 
 class UserAlreadyExistsException implements Exception {}
 
+class UserNotFoundException implements Exception {}
+
 class NoteService {
   Database? _db;
+
+  // Function to obtain a user:
+  Future<DatabaseUser> getUser({required String email}) async {
+    final db = _getDatabaseOrThrow();
+    final results = await db.query(
+      userTable,
+      limit: 1,
+      where: "email = ?",
+      whereArgs: [
+        email.toLowerCase()
+      ],
+    );
+    if (results.isEmpty) {
+      throw UserNotFoundException();
+    } else {
+      return DatabaseUser.fromRow(results.first);
+    }
+  }
 
   // Function to create users on the table:
   Future<DatabaseUser> createUser({required String email}) async {
