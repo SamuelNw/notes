@@ -20,6 +20,12 @@ class CouldNotDeleteNoteException implements Exception {}
 class NoteService {
   Database? _db;
 
+  // Delete all notes:
+  Future<int> deleteAllNotes() async {
+    final db = _getDatabaseOrThrow();
+    return await db.delete(noteTable);
+  }
+
   // Delete a note:
   Future<void> deleteNote({required int id}) async {
     final db = _getDatabaseOrThrow();
