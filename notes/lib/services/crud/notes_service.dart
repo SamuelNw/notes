@@ -19,8 +19,31 @@ class CouldNotDeleteNoteException implements Exception {}
 
 class CouldNotFindNoteException implements Exception {}
 
+class CouldNotUpdateNoteException implements Exception {}
+
 class NoteService {
   Database? _db;
+
+  // Update a particular note:
+  Future<DatabaseNote> updateNote({
+    required DatabaseNote note,
+    required String text,
+  }) async {
+    final db = _getDatabaseOrThrow();
+
+    await getNote(id: note.id);
+
+    final updateCount = await db.update(noteTable, {
+      textColumn: text,
+      isSyncedWithCloudColoumn: 0,
+    });
+
+    if (updateCount == 0) {
+      throw CouldNotUpdateNoteException();
+    } else {
+      return await getNote(id: note.id);
+    }
+  }
 
   // Fetch all notes:
   Future<Iterable<DatabaseNote>> getAllNotes() async {
