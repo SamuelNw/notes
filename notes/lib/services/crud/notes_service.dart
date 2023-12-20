@@ -18,7 +18,33 @@ class UserNotFoundException implements Exception {}
 class NoteService {
   Database? _db;
 
-  // Function to obtain a user:
+  // Create a note:
+  Future<DatabaseNote> createNote({required DatabaseUser owner}) async {
+    final db = _getDatabaseOrThrow();
+
+    final dbUser = await getUser(email: owner.email);
+    if (dbUser != owner) {
+      throw UserNotFoundException();
+    }
+
+    const String text = "";
+    final noteId = await db.insert(noteTable, {
+      userIdColumn: owner.id,
+      textColumn: text,
+      isSyncedWithCloudColoumn: 1,
+    });
+
+    final note = DatabaseNote(
+      id: noteId,
+      userId: owner.id,
+      text: text,
+      isSyncedWithCloud: true,
+    );
+
+    return note;
+  }
+
+  // Obtain a user:
   Future<DatabaseUser> getUser({required String email}) async {
     final db = _getDatabaseOrThrow();
     final results = await db.query(
@@ -36,7 +62,7 @@ class NoteService {
     }
   }
 
-  // Function to create users on the table:
+  // Create users on the table:
   Future<DatabaseUser> createUser({required String email}) async {
     final db = _getDatabaseOrThrow();
     final results = await db.query(
@@ -57,7 +83,7 @@ class NoteService {
     return DatabaseUser(id: userId, email: email);
   }
 
-  // Function to delete a user from the table:
+  // Delete a user from the table:
   Future<void> deleteUser({required String email}) async {
     final db = _getDatabaseOrThrow();
     final int deletedCount = await db.delete(
@@ -82,7 +108,7 @@ class NoteService {
     }
   }
 
-  // Function to close db:
+  // Close db:
   Future<void> close() async {
     final db = _db;
     if (db == null) {
@@ -93,7 +119,7 @@ class NoteService {
     }
   }
 
-  // Function to open the database:
+  // Open the database:
   Future<void> open() async {
     if (_db != null) {
       throw DatabaseAlreadyOpenException();
