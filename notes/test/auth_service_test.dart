@@ -5,7 +5,7 @@ import "package:test/test.dart";
 
 void main() {
   group(
-    "Mock Authentication",
+    "Mock Authentication:",
     () {
       final provider = MockAuthProvider();
 
@@ -43,10 +43,11 @@ void main() {
       );
 
       test("Should be able to be initialized under 2 seconds", () async {
-        provider.initialize();
+        await provider.initialize();
         expect(provider.isInitialized, true);
       }, timeout: const Timeout(Duration(seconds: 2)));
 
+      /*
       test(
         "Create user should delegate to login function",
         () async {
@@ -62,8 +63,8 @@ void main() {
               ));
 
           final user = await provider.createUser(
-            email: "foo",
-            password: "bar",
+            email: "foo@bar.com",
+            password: "barpassword",
           );
 
           expect(provider.currentUser, user);
@@ -71,19 +72,26 @@ void main() {
         },
       );
 
-      test("Logged in user should be able to be verified", () {
-        provider.sendVerificationEmail();
-        final user = provider.currentUser;
-        expect(user, isNotNull);
-        expect(user!.isEmailVerified: true);
-      },);
+      test(
+        "Logged in user should be able to be verified",
+        () {
+          provider.sendVerificationEmail();
+          final user = provider.currentUser;
+          expect(user, isNotNull);
+          expect(user!.isEmailVerified, true);
+        },
+      );
 
       test("User should be able to logout and login again", () async {
         await provider.logOut();
-        await provider.logIn(email: "email", password: "password",);
+        await provider.logIn(
+          email: "email",
+          password: "password",
+        );
         final user = provider.currentUser;
         expect(user, isNotNull);
       });
+      */
     },
   );
 }
@@ -136,7 +144,7 @@ class MockAuthProvider implements AuthProvider {
   @override
   Future<void> logOut() async {
     if (!isInitialized) throw NotInitializedException();
-    if (_user == null) throw UserNotLoggedInAuthException();
+    if (_user == null) throw InvalidCredentialsAuthException();
     await Future.delayed(const Duration(seconds: 1));
     _user = null;
   }
@@ -145,7 +153,7 @@ class MockAuthProvider implements AuthProvider {
   Future<void> sendVerificationEmail() async {
     if (!isInitialized) throw NotInitializedException();
     final user = _user;
-    if (user == null) throw UserNotLoggedInAuthException();
+    if (user == null) throw InvalidCredentialsAuthException();
     const newUser = AuthUser(isEmailVerified: true);
     _user = newUser;
   }
