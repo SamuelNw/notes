@@ -11,10 +11,33 @@ class DatabaseNotOpenException implements Exception {}
 
 class CouldNotDeleteUserException implements Exception {}
 
+class UserAlreadyExistsException implements Exception {}
+
 class NoteService {
   Database? _db;
 
-  //Function to delete a user from the table:
+  // Function to create users on the table:
+  Future<DatabaseUser> createUser({required String email}) async {
+    final db = _getDatabaseOrThrow();
+    final results = await db.query(
+      userTable,
+      limit: 1,
+      where: "email = ?",
+      whereArgs: [
+        email.toLowerCase()
+      ],
+    );
+    if (results.isNotEmpty) {
+      throw UserAlreadyExistsException();
+    }
+    final userId = await db.insert(userTable, {
+      emailColumn: email.toLowerCase(),
+    });
+
+    return DatabaseUser(id: userId, email: email);
+  }
+
+  // Function to delete a user from the table:
   Future<void> deleteUser({required String email}) async {
     final db = _getDatabaseOrThrow();
     final int deletedCount = await db.delete(
