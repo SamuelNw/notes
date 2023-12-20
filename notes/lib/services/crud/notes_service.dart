@@ -26,5 +26,29 @@ class DatabaseUser {
   int get hashCode => id.hashCode;
 }
 
+@immutable
+class DatabaseNote {
+  final int id;
+  final int userId;
+  final String text;
+  final bool isSyncedWithCloud;
+
+  const DatabaseNote({
+    required this.id,
+    required this.userId,
+    required this.text,
+    required this.isSyncedWithCloud,
+  });
+
+  DatabaseNote.fromRow(Map<String, Object?> map)
+      : id = map[idColumn] as int,
+        userId = map[userIdColumn] as int,
+        text = map[textColumn] as String,
+        isSyncedWithCloud = (map[isSyncedWithCloudColoumn] as int) == 1 ? true : false;
+}
+
 const idColumn = "id";
 const emailColumn = "email";
+const userIdColumn = "user_id";
+const textColumn = "text";
+const isSyncedWithCloudColoumn = "is_synced_with_cloud";
