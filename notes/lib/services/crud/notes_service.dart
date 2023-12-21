@@ -3,9 +3,21 @@ import "package:notes/services/crud/crud_exceptions.dart";
 import "package:sqflite/sqflite.dart";
 import "package:path_provider/path_provider.dart";
 import "package:path/path.dart" show join;
+import "dart:async";
 
 class NoteService {
   Database? _db;
+
+  // Work with streams:
+  List<DatabaseNote> _notes = [];
+
+  final _notesStreamController = StreamController<List<DatabaseNote>>.broadcast();
+
+  Future<void> _cacheNotes() async {
+    final allNotes = await getAllNotes();
+    _notes = allNotes.toList();
+    _notesStreamController.add(_notes);
+  }
 
   // Update a particular note:
   Future<DatabaseNote> updateNote({
@@ -193,6 +205,7 @@ class NoteService {
 
       // Create the note table:
       await db.execute(createNoteTable);
+      await _cacheNotes();
     } on MissingPlatformDirectoryException {
       throw UnableToGetDocumentsDirectoryException();
     }
