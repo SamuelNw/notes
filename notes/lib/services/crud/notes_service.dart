@@ -8,6 +8,18 @@ import "dart:async";
 class NoteService {
   Database? _db;
 
+  Future<DatabaseUser> getOrCreateUser({required String email}) async {
+    try {
+      final user = await createUser(email: email);
+      return user;
+    } on UserNotFoundException {
+      final createdUser = await createUser(email: email);
+      return createdUser;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   // Work with streams:
   List<DatabaseNote> _notes = [];
 
