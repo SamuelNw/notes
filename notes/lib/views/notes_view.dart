@@ -18,7 +18,6 @@ class _NotesViewState extends State<NotesView> {
   @override
   void initState() async {
     _noteService = NoteService();
-    _noteService.open();
     super.initState();
   }
 
