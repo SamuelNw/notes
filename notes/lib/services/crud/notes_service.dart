@@ -8,6 +8,7 @@ import "dart:async";
 class NoteService {
   Database? _db;
 
+  // Get or Create a User:
   Future<DatabaseUser> getOrCreateUser({required String email}) async {
     try {
       final user = await createUser(email: email);
