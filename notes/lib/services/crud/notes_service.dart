@@ -8,6 +8,10 @@ import "dart:async";
 class NoteService {
   Database? _db;
 
+  static final NoteService _shared = NoteService._sharedInstance();
+  NoteService._sharedInstance();
+  factory NoteService() => _shared;
+
   // Get or Create a User:
   Future<DatabaseUser> getOrCreateUser({required String email}) async {
     try {
@@ -31,6 +35,8 @@ class NoteService {
     _notes = allNotes.toList();
     _notesStreamController.add(_notes);
   }
+
+  Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
 
   // Update a particular note:
   Future<DatabaseNote> updateNote({
