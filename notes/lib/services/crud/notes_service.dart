@@ -62,7 +62,11 @@ class NoteService {
     if (results.isEmpty) {
       throw CouldNotFindNoteException();
     } else {
-      return DatabaseNote.fromRow(results.first);
+      final note = DatabaseNote.fromRow(results.first);
+      _notes.removeWhere((note) => note.id == note);
+      _notes.add(note);
+      _notesStreamController.add(_notes);
+      return note;
     }
   }
 
