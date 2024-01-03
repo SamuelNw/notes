@@ -83,7 +83,26 @@ class _NewNoteViewState extends State<NewNoteView> {
         title: const Text("New Note"),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: const Text("New note content goes here."),
+      body: FutureBuilder(
+        future: createNewNote(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              _note = snapshot.data as DatabaseNote;
+              _setUpTextControllerListener();
+              return TextField(
+                controller: _textController,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                decoration: const InputDecoration(
+                  hintText: "Start typing your note...",
+                ),
+              );
+            default:
+              return const CircularProgressIndicator();
+          }
+        },
+      ),
     );
   }
 }
