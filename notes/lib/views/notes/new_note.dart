@@ -32,10 +32,24 @@ class _NewNoteViewState extends State<NewNoteView> {
     return await _noteService.createNote(owner: owner);
   }
 
+  void _textControllerListener() async {
+    final note = _note;
+    if (note == null) {
+      return;
+    }
+    final text = _textController.text;
+    await _noteService.updateNote(
+      note: note,
+      text: text,
+    );
+  }
+
   void _deleteNoteIfEmpty() {
     final note = _note;
     if (_textController.text.isEmpty && note != null) {
-      _noteService.deleteNote(id: note.id);
+      _noteService.deleteNote(
+        id: note.id,
+      );
     }
   }
 
@@ -43,7 +57,10 @@ class _NewNoteViewState extends State<NewNoteView> {
     final note = _note;
     final text = _textController.text;
     if (note != null && text.isNotEmpty) {
-      await _noteService.updateNote(note: note, text: text);
+      await _noteService.updateNote(
+        note: note,
+        text: text,
+      );
     }
   }
 
