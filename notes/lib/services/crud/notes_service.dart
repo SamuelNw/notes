@@ -9,7 +9,13 @@ class NoteService {
   Database? _db;
 
   static final NoteService _shared = NoteService._sharedInstance();
-  NoteService._sharedInstance();
+  NoteService._sharedInstance() {
+    _notesStreamController = StreamController<List<DatabaseNote>>.broadcast(
+      onListen: () {
+        _notesStreamController.sink.add(_notes);
+      },
+    );
+  }
   factory NoteService() => _shared;
 
   // Get or Create a User:
@@ -28,7 +34,7 @@ class NoteService {
   // Work with streams:
   List<DatabaseNote> _notes = [];
 
-  final _notesStreamController = StreamController<List<DatabaseNote>>.broadcast();
+  late final StreamController<List<DatabaseNote>> _notesStreamController;
 
   Future<void> _cacheNotes() async {
     final allNotes = await getAllNotes();
