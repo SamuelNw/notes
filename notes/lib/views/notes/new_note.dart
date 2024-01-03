@@ -44,6 +44,11 @@ class _NewNoteViewState extends State<NewNoteView> {
     );
   }
 
+  void _setUpTextControllerListener() {
+    _textController.removeListener(_textControllerListener);
+    _textController.addListener(_textControllerListener);
+  }
+
   void _deleteNoteIfEmpty() {
     final note = _note;
     if (_textController.text.isEmpty && note != null) {
