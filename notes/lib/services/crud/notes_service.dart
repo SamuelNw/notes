@@ -18,6 +18,13 @@ class NoteService {
   }
   factory NoteService() => _shared;
 
+  // Work with streams:
+  List<DatabaseNote> _notes = [];
+
+  late final StreamController<List<DatabaseNote>> _notesStreamController;
+
+  Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
+
   // Get or Create a User:
   Future<DatabaseUser> getOrCreateUser({required String email}) async {
     try {
@@ -31,18 +38,11 @@ class NoteService {
     }
   }
 
-  // Work with streams:
-  List<DatabaseNote> _notes = [];
-
-  late final StreamController<List<DatabaseNote>> _notesStreamController;
-
   Future<void> _cacheNotes() async {
     final allNotes = await getAllNotes();
     _notes = allNotes.toList();
     _notesStreamController.add(_notes);
   }
-
-  Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
 
   // Update a particular note:
   Future<DatabaseNote> updateNote({
