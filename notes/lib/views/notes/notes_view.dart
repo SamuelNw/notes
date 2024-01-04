@@ -3,6 +3,7 @@ import "package:notes/constants/routes.dart";
 import "package:notes/enums/menu_action.dart";
 import "package:notes/services/auth/auth_service.dart";
 import "package:notes/services/crud/notes_service.dart";
+import "package:notes/utilities/dialogs/logout_dialog.dart";
 
 class NotesView extends StatefulWidget {
   const NotesView({super.key});
@@ -101,30 +102,4 @@ class _NotesViewState extends State<NotesView> {
       ),
     );
   }
-}
-
-Future<bool> showLogOutDialog(BuildContext context) {
-  return showDialog<bool>(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text("Sign Out"),
-        content: const Text("Are you sure you want to sign out?"),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text("Cancel"),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-            child: const Text("Log out"),
-          ),
-        ],
-      );
-    },
-  ).then((value) => value ?? false);
 }
