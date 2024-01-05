@@ -54,7 +54,13 @@ class NoteService {
       }
       return createdUser;
     } catch (e) {
-      rethrow;
+      if (e is UserAlreadyExistsException) {
+        final existingUser = await getUser(email: email);
+        _user = existingUser;
+        return existingUser;
+      } else {
+        rethrow;
+      }
     }
   }
 
