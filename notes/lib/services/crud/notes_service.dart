@@ -8,6 +8,8 @@ import "dart:async";
 class NoteService {
   Database? _db;
 
+  DatabaseUser? _user;
+
   static final NoteService _shared = NoteService._sharedInstance();
   NoteService._sharedInstance() {
     _notesStreamController = StreamController<List<DatabaseNote>>.broadcast(
@@ -26,12 +28,21 @@ class NoteService {
   Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
 
   // Get or Create a User:
-  Future<DatabaseUser> getOrCreateUser({required String email}) async {
+  Future<DatabaseUser> getOrCreateUser({
+    required String email,
+    bool setAsCurrentUser = true,
+  }) async {
     try {
       final user = await createUser(email: email);
+      if (setAsCurrentUser) {
+        _user = user;
+      }
       return user;
     } on UserNotFoundException {
       final createdUser = await createUser(email: email);
+      if (setAsCurrentUser) {
+        _user = createdUser;
+      }
       return createdUser;
     } catch (e) {
       rethrow;
