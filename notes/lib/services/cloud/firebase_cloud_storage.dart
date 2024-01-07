@@ -6,7 +6,7 @@ class FirebaseCloudStorage {
 
   // Create a new note:
   void createNewNote({required String ownerUserId}) async {
-    notes.add({
+    await notes.add({
       ownerUserIdFieldName: ownerUserId,
       textFieldName: "",
     });
