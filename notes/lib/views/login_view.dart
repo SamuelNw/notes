@@ -6,6 +6,7 @@ import 'package:notes/services/auth/bloc/auth_bloc.dart';
 import 'package:notes/services/auth/bloc/auth_event.dart';
 import 'package:notes/services/auth/bloc/auth_state.dart';
 import 'package:notes/utilities/dialogs/error_dialog.dart';
+import 'package:notes/utilities/dialogs/loading_dialog.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -17,6 +18,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
+  CloseDialog? _closeLoadingDialog;
 
   @override
   void initState() {
@@ -34,47 +36,59 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Login"),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          TextField(
-            controller: _email,
-            keyboardType: TextInputType.emailAddress,
-            enableSuggestions: false,
-            autocorrect: false,
-            decoration: const InputDecoration(hintText: "Enter your email"),
-          ),
-          TextField(
-            controller: _password,
-            obscureText: true,
-            enableSuggestions: false,
-            autocorrect: false,
-            decoration: const InputDecoration(hintText: "Enter your password"),
-          ),
-          BlocListener<AuthBloc, AuthState>(
-            listener: (context, state) async {
-              if (state is AuthStateLoggedOut) {
-                if (state.exception is InvalidCredentialsAuthException) {
-                  // ignore: use_build_context_synchronously
-                  await showErrorDialog(
-                    context,
-                    "Invalid Credentials Provided.",
-                  );
-                } else if (state.exception is GenericAuthException) {
-                  // ignore: use_build_context_synchronously
-                  await showErrorDialog(
-                    context,
-                    "An error occurred. Try again later.",
-                  );
-                }
-              }
-            },
-            child: TextButton(
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) async {
+        if (state is AuthStateLoggedOut) {
+          final closeDialog = _closeLoadingDialog;
+
+          if (!state.isLoading && closeDialog != null) {
+            closeDialog();
+            _closeLoadingDialog = null;
+          } else if (state.isLoading && closeDialog == null) {
+            _closeLoadingDialog = showLoadingDialog(
+              context: context,
+              text: "Loading...",
+            );
+          }
+
+          if (state.exception is InvalidCredentialsAuthException) {
+            // ignore: use_build_context_synchronously
+            await showErrorDialog(
+              context,
+              "Invalid Credentials Provided.",
+            );
+          } else if (state.exception is GenericAuthException) {
+            // ignore: use_build_context_synchronously
+            await showErrorDialog(
+              context,
+              "An error occurred. Try again later.",
+            );
+          }
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Login"),
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            TextField(
+              controller: _email,
+              keyboardType: TextInputType.emailAddress,
+              enableSuggestions: false,
+              autocorrect: false,
+              decoration: const InputDecoration(hintText: "Enter your email"),
+            ),
+            TextField(
+              controller: _password,
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
+              decoration: const InputDecoration(hintText: "Enter your password"),
+            ),
+            TextButton(
               onPressed: () async {
                 final email = _email.text;
                 final password = _password.text;
@@ -87,17 +101,17 @@ class _LoginViewState extends State<LoginView> {
               },
               child: const Text("Sign In"),
             ),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                registerRoute,
-                (route) => false,
-              );
-            },
-            child: const Text("Not registered yet? Register here."),
-          ),
-        ],
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  registerRoute,
+                  (route) => false,
+                );
+              },
+              child: const Text("Not registered yet? Register here."),
+            ),
+          ],
+        ),
       ),
     );
   }
