@@ -33,7 +33,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await provider.initialize();
         final user = provider.currentUser;
         if (user == null) {
-          emit(const AuthStateLoggedOut(null));
+          emit(const AuthStateLoggedOut(
+            exception: null,
+            isLoading: false,
+          ));
         } else if (!user.isEmailVerified) {
           emit(const AuthStateNeedsVerification());
         } else {
