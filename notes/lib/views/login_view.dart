@@ -4,6 +4,7 @@ import 'package:notes/constants/routes.dart';
 import 'package:notes/services/auth/auth_exceptions.dart';
 import 'package:notes/services/auth/bloc/auth_bloc.dart';
 import 'package:notes/services/auth/bloc/auth_event.dart';
+import 'package:notes/services/auth/bloc/auth_state.dart';
 import 'package:notes/utilities/dialogs/error_dialog.dart';
 
 class LoginView extends StatefulWidget {
@@ -55,32 +56,37 @@ class _LoginViewState extends State<LoginView> {
             autocorrect: false,
             decoration: const InputDecoration(hintText: "Enter your password"),
           ),
-          TextButton(
-            onPressed: () async {
-              final email = _email.text;
-              final password = _password.text;
-              try {
+          BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) async {
+              if (state is AuthStateLoggedOut) {
+                if (state.exception is InvalidCredentialsAuthException) {
+                  // ignore: use_build_context_synchronously
+                  await showErrorDialog(
+                    context,
+                    "Invalid Credentials Provided.",
+                  );
+                } else if (state.exception is GenericAuthException) {
+                  // ignore: use_build_context_synchronously
+                  await showErrorDialog(
+                    context,
+                    "An error occurred. Try again later.",
+                  );
+                }
+              }
+            },
+            child: TextButton(
+              onPressed: () async {
+                final email = _email.text;
+                final password = _password.text;
                 context.read<AuthBloc>().add(
                       AuthEventLogIn(
                         email,
                         password,
                       ),
                     );
-              } on InvalidCredentialsAuthException {
-                // ignore: use_build_context_synchronously
-                await showErrorDialog(
-                  context,
-                  "Invalid Credentials Provided.",
-                );
-              } on GenericAuthException {
-                // ignore: use_build_context_synchronously
-                await showErrorDialog(
-                  context,
-                  "An error occurred. Try again later.",
-                );
-              }
-            },
-            child: const Text("Sign In"),
+              },
+              child: const Text("Sign In"),
+            ),
           ),
           TextButton(
             onPressed: () {
