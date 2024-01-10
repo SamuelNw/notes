@@ -88,7 +88,7 @@ class _LoginViewState extends State<LoginView> {
               decoration: const InputDecoration(hintText: "Enter your password"),
             ),
             TextButton(
-              onPressed: () async {
+              onPressed: () {
                 final email = _email.text;
                 final password = _password.text;
                 context.read<AuthBloc>().add(
