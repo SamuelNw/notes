@@ -11,6 +11,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(state);
     });
 
+    //Registration:
+    on<AuthEventRegister>((event, emit) async {
+      final email = event.email;
+      final password = event.password;
+      try {
+        await provider.createUser(
+          email: email,
+          password: password,
+        );
+        await provider.sendVerificationEmail();
+        emit(const AuthStateNeedsVerification());
+      } on Exception catch (e) {
+        emit(AuthStateRegistering(e));
+      }
+    });
+
     // Initialize:
     on<AuthEventInitialize>(
       (event, emit) async {
