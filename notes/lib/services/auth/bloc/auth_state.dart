@@ -6,8 +6,13 @@ abstract class AuthState {
   const AuthState();
 }
 
-class AuthStateLoading extends AuthState {
-  const AuthStateLoading();
+class AuthStateUninitialized extends AuthState {
+  const AuthStateUninitialized();
+}
+
+class AuthStateRegistering extends AuthState {
+  final Exception exception;
+  const AuthStateRegistering(this.exception);
 }
 
 class AuthStateLoggedIn extends AuthState {
