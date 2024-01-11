@@ -36,6 +36,7 @@ class _RegisterViewState extends State<RegisterView> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthStateRegistering) {
+          print(state.exception);
           if (state.exception is EmailAlreadyInUseAuthException) {
             // ignore: use_build_context_synchronously
             await showErrorDialog(
