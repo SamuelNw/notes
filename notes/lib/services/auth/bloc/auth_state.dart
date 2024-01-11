@@ -4,38 +4,47 @@ import "package:notes/services/auth/auth_user.dart";
 
 @immutable
 abstract class AuthState {
-  const AuthState();
+  final bool isLoading;
+  final String? loadingText;
+  const AuthState({
+    required this.isLoading,
+    this.loadingText = "Please wait a moment",
+  });
 }
 
 class AuthStateUninitialized extends AuthState {
-  const AuthStateUninitialized();
+  const AuthStateUninitialized({required super.isLoading});
 }
 
 class AuthStateRegistering extends AuthState {
   final Exception exception;
-  const AuthStateRegistering(this.exception);
+  // ignore: use_super_parameters
+  const AuthStateRegistering({required this.exception, required isLoading})
+      : super(
+          isLoading: isLoading,
+        );
 }
 
 class AuthStateLoggedIn extends AuthState {
   final AuthUser user;
-  const AuthStateLoggedIn(this.user);
-}
-
-class AuthStateLoginFailure extends AuthState {
-  final Exception exception;
-  const AuthStateLoginFailure(this.exception);
+  const AuthStateLoggedIn({
+    required this.user,
+    required super.isLoading,
+  });
 }
 
 class AuthStateNeedsVerification extends AuthState {
-  const AuthStateNeedsVerification();
+  const AuthStateNeedsVerification({
+    required bool isLoading,
+  }) : super(isLoading: false);
 }
 
 class AuthStateLoggedOut extends AuthState with EquatableMixin {
   final Exception? exception;
-  final bool isLoading;
   const AuthStateLoggedOut({
     required this.exception,
-    required this.isLoading,
+    required super.isLoading,
+    super.loadingText = null,
   });
 
   @override
