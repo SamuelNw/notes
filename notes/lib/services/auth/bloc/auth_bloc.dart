@@ -33,6 +33,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
+    on<AuthEventShouldRegister>((event, emit) async {
+      emit(const AuthStateRegistering(exception: null, isLoading: false));
+    });
+
     // Initialize:
     on<AuthEventInitialize>(
       (event, emit) async {
