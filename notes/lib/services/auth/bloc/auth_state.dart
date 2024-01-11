@@ -1,3 +1,5 @@
+// ignore_for_file: use_super_parameters
+
 import "package:equatable/equatable.dart";
 import "package:flutter/foundation.dart" show immutable;
 import "package:notes/services/auth/auth_user.dart";
@@ -18,7 +20,6 @@ class AuthStateUninitialized extends AuthState {
 
 class AuthStateRegistering extends AuthState {
   final Exception exception;
-  // ignore: use_super_parameters
   const AuthStateRegistering({required this.exception, required isLoading})
       : super(
           isLoading: isLoading,
