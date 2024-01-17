@@ -62,7 +62,7 @@ class _LoginViewState extends State<LoginView> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               const Text(
-                "Please provide you login credentials to create notes.",
+                "Please provide your login credentials to create notes.",
               ),
               TextField(
                 controller: _email,

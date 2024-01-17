@@ -64,12 +64,8 @@ class HomePage extends StatelessWidget {
         } else if (state is AuthStateForgotPassword) {
           return const PasswordResetView();
         } else {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text("More states go here"),
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            ),
-            body: const Center(
+          return const Scaffold(
+            body: Center(
               child: CircularProgressIndicator(),
             ),
           );
