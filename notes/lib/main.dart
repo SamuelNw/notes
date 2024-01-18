@@ -13,25 +13,29 @@ import 'package:notes/views/register_view.dart';
 import 'package:notes/views/verify_email.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import "package:notes/views/generic_login_register_view.dart";
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Notes App',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(
-            FirebaseAuthProvider(),
-          ),
-          child: const HomePage(),
-        ),
-        routes: {
-          createOrUpdateNoteRoute: (context) => const CreateOrUpdateNoteView(),
-        }),
+      debugShowCheckedModeBanner: false,
+      title: 'Notes App',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: const GenLogRegView(),
+    ),
+    // home: BlocProvider<AuthBloc>(
+    //   create: (context) => AuthBloc(
+    //     FirebaseAuthProvider(),
+    //   ),
+    //   child: const HomePage(),
+    // ),
+    // routes: {
+    //   createOrUpdateNoteRoute: (context) => const CreateOrUpdateNoteView(),
+    // }),
   );
 }
 
