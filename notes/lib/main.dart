@@ -22,20 +22,23 @@ void main() {
       debugShowCheckedModeBanner: false,
       title: 'Notes App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 25, 159, 153),
+        ),
         useMaterial3: true,
       ),
-      home: const LandingScreen(),
+      // home: const LandingScreen(),
+
+      home: BlocProvider<AuthBloc>(
+        create: (context) => AuthBloc(
+          FirebaseAuthProvider(),
+        ),
+        child: const HomePage(),
+      ),
+      routes: {
+        createOrUpdateNoteRoute: (context) => const CreateOrUpdateNoteView(),
+      },
     ),
-    // home: BlocProvider<AuthBloc>(
-    //   create: (context) => AuthBloc(
-    //     FirebaseAuthProvider(),
-    //   ),
-    //   child: const HomePage(),
-    // ),
-    // routes: {
-    //   createOrUpdateNoteRoute: (context) => const CreateOrUpdateNoteView(),
-    // }),
   );
 }
 
