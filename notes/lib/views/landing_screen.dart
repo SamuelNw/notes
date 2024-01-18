@@ -23,7 +23,7 @@ class _LandingScreenState extends State<LandingScreen> {
           ),
           Center(
             child: Padding(
-              padding: const EdgeInsets.only(left: 50, right: 50),
+              padding: const EdgeInsets.only(left: 80, right: 80),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -36,15 +36,27 @@ class _LandingScreenState extends State<LandingScreen> {
                     height: 30,
                   ),
                   const Text(
-                    "From fleeting thought, to lasting note",
+                    "Think freely, remember precisely.",
                     style: TextStyle(
                       color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 29,
+                      fontSize: 25,
                       fontFamily: "Jost",
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 80),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    "Capture. Organize. Create",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 168, 168, 168),
+                      fontSize: 20,
+                      fontFamily: "Jost",
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 70),
                   ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
