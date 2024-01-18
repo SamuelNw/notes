@@ -13,7 +13,7 @@ import 'package:notes/views/register_view.dart';
 import 'package:notes/views/verify_email.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import "package:notes/views/generic_login_register_view.dart";
+import 'package:notes/views/landing_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +25,7 @@ void main() {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const GenLogRegView(),
+      home: const LandingScreen(),
     ),
     // home: BlocProvider<AuthBloc>(
     //   create: (context) => AuthBloc(

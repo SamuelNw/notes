@@ -1,13 +1,13 @@
 import "package:flutter/material.dart";
 
-class GenLogRegView extends StatefulWidget {
-  const GenLogRegView({super.key});
+class LandingScreen extends StatefulWidget {
+  const LandingScreen({super.key});
 
   @override
-  State<GenLogRegView> createState() => _GenLogRegViewState();
+  State<LandingScreen> createState() => _LandingScreenState();
 }
 
-class _GenLogRegViewState extends State<GenLogRegView> {
+class _LandingScreenState extends State<LandingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
