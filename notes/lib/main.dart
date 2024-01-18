@@ -26,9 +26,9 @@ void main() {
           seedColor: const Color.fromARGB(255, 25, 159, 153),
         ),
         useMaterial3: true,
+        fontFamily: "Jost",
       ),
       // home: const LandingScreen(),
-
       home: BlocProvider<AuthBloc>(
         create: (context) => AuthBloc(
           FirebaseAuthProvider(),
