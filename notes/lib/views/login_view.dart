@@ -51,152 +51,204 @@ class _LoginViewState extends State<LoginView> {
           }
         }
       },
-      child: Scaffold(
-        body: Stack(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/view_bgs/login_bg.jpg"),
-                  fit: BoxFit.fitHeight,
-                ),
-              ),
+      child: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              "assets/view_bgs/login_bg.jpg",
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 100.0),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        height: 100.0,
-                        width: 160.0,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.2),
-                          shape: BoxShape.circle,
+            fit: BoxFit.fitHeight,
+          ),
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Padding(
+            padding: const EdgeInsets.only(top: 0, bottom: 50.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Row(
+                  children: [
+                    Container(
+                      height: 100.0,
+                      width: 160.0,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withOpacity(0.2),
+                        shape: BoxShape.circle,
+                      ),
+                      alignment: Alignment.centerRight,
+                      transform: Matrix4.translationValues(-55.0, 0.0, 0.0),
+                      child: const Text(
+                        "Login",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 40,
                         ),
-                        alignment: Alignment.centerRight,
-                        transform: Matrix4.translationValues(-55.0, 0.0, 0.0),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 50.0),
+                Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Transform(
+                        transform: Matrix4.translationValues(12.0, 0.0, 0.0),
                         child: const Text(
-                          "Login",
+                          "Email",
                           style: TextStyle(
-                            fontSize: 40,
-                            fontFamily: "Jost",
+                            fontSize: 19.0,
                             color: Colors.white,
                           ),
                         ),
                       ),
+                      const SizedBox(height: 4.0),
+                      TextField(
+                        controller: _email,
+                        keyboardType: TextInputType.emailAddress,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        autofocus: false,
+                        decoration: InputDecoration(
+                          hintText: "Enter your Email",
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20.0,
+                            vertical: 20.0,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: Colors.white),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: Colors.white),
+                          ),
+                        ),
+                        style: const TextStyle(color: Colors.white),
+                        cursorColor: Colors.white,
+                      ),
+                      const SizedBox(height: 20.0),
+                      Transform(
+                        transform: Matrix4.translationValues(12.0, 0.0, 0.0),
+                        child: const Text(
+                          "Password",
+                          style: TextStyle(
+                            fontSize: 19.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 4.0),
+                      TextField(
+                        controller: _password,
+                        obscureText: true,
+                        enableSuggestions: false,
+                        autocorrect: false,
+                        decoration: InputDecoration(
+                          hintText: "Enter your password",
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20.0,
+                            vertical: 20.0,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: Colors.white),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(color: Colors.white),
+                          ),
+                        ),
+                        style: const TextStyle(color: Colors.white),
+                        cursorColor: Colors.white,
+                      ),
+                      const SizedBox(height: 30.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color.fromARGB(
+                                255,
+                                25,
+                                159,
+                                153,
+                              ),
+                              foregroundColor: Colors.white,
+                              minimumSize: const Size(100, 45),
+                            ),
+                            onPressed: () async {
+                              final email = _email.text;
+                              final password = _password.text;
+                              context.read<AuthBloc>().add(
+                                    AuthEventLogIn(email, password),
+                                  );
+                            },
+                            child: const Text(
+                              "Login",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              context.read<AuthBloc>().add(
+                                    const AuthEventForgotPassword(),
+                                  );
+                            },
+                            child: const Text(
+                              "I forgot my password.",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Not registered yet?",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              context.read<AuthBloc>().add(
+                                    const AuthEventShouldRegister(),
+                                  );
+                            },
+                            child: const Text(
+                              "Create New Account.",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 18.0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
-                  const SizedBox(height: 100),
-                  Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        TextField(
-                          controller: _email,
-                          keyboardType: TextInputType.emailAddress,
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          decoration: InputDecoration(
-                            hintText: "Enter your email",
-                            hintStyle: const TextStyle(color: Colors.grey),
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                          style: const TextStyle(color: Colors.white),
-                          cursorColor: Colors.white,
-                        ),
-                        const SizedBox(height: 20),
-                        TextField(
-                          controller: _password,
-                          obscureText: true,
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          decoration: InputDecoration(
-                            hintText: "Enter your password",
-                            hintStyle: const TextStyle(color: Colors.grey),
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                          style: const TextStyle(color: Colors.white),
-                          cursorColor: Colors.white,
-                        ),
-                        const SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: () {
-                            final email = _email.text;
-                            final password = _password.text;
-                            context.read<AuthBloc>().add(
-                                  AuthEventLogIn(
-                                    email,
-                                    password,
-                                  ),
-                                );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(
-                              255,
-                              25,
-                              159,
-                              153,
-                            ),
-                            foregroundColor: Colors.white,
-                            minimumSize: const Size(100, 45),
-                          ),
-                          child: const Text(
-                            "Login",
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            context.read<AuthBloc>().add(
-                                  const AuthEventForgotPassword(),
-                                );
-                          },
-                          child: const Text(
-                            "I forgot my password.",
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            context.read<AuthBloc>().add(
-                                  const AuthEventShouldRegister(),
-                                );
-                          },
-                          child: const Text(
-                            "Not registered yet? Register here.",
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
