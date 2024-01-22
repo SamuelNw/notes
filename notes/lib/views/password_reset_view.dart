@@ -157,28 +157,28 @@ class _PasswordResetViewState extends State<PasswordResetView> {
                   children: [
                     Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "Back to",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.grey,
+                        TextButton(
+                          onPressed: () {
+                            context.read<AuthBloc>().add(
+                                  const AuthEventLogout(),
+                                );
+                          },
+                          child: const Row(
+                            children: [
+                              Text(
+                                "Back to",
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.grey,
+                                ),
                               ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                context.read<AuthBloc>().add(
-                                      const AuthEventLogout(),
-                                    );
-                              },
-                              child: const Text(
+                              SizedBox(width: 5.0),
+                              Text(
                                 "Login",
                                 style: TextStyle(fontSize: 18.0),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         IconButton(
                           onPressed: () {
