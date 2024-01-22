@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:notes/constants/routes.dart";
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
@@ -58,7 +59,9 @@ class _LandingScreenState extends State<LandingScreen> {
                   ),
                   const SizedBox(height: 70),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(homePageRoute);
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 25, 159, 153),
                       foregroundColor: Colors.white,

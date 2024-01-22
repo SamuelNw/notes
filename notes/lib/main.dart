@@ -28,15 +28,15 @@ void main() {
         useMaterial3: true,
         fontFamily: "Jost",
       ),
-      // home: const LandingScreen(),
-      home: BlocProvider<AuthBloc>(
-        create: (context) => AuthBloc(
-          FirebaseAuthProvider(),
-        ),
-        child: const HomePage(),
-      ),
+      home: const LandingScreen(),
       routes: {
         createOrUpdateNoteRoute: (context) => const CreateOrUpdateNoteView(),
+        homePageRoute: (context) => BlocProvider<AuthBloc>(
+              create: (context) => AuthBloc(
+                FirebaseAuthProvider(),
+              ),
+              child: const HomePage(),
+            ),
       },
     ),
   );
