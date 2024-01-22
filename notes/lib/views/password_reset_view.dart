@@ -55,8 +55,10 @@ class _PasswordResetViewState extends State<PasswordResetView> {
             gradient: LinearGradient(
               colors: [
                 Color.fromARGB(255, 0, 0, 0), // Your navy blue shade
-                Color.fromARGB(255, 23, 22, 43), // Your grey shade
+                Color.fromARGB(255, 6, 41, 37), // Your grey shade
               ],
+              begin: Alignment.centerRight,
+              end: Alignment.centerLeft,
             ),
           ),
           child: Padding(
@@ -76,7 +78,7 @@ class _PasswordResetViewState extends State<PasswordResetView> {
                   "Did you forget your password? \nPlease provide your email address and check it for a password reset link.",
                   style: TextStyle(
                     color: Color.fromARGB(255, 194, 194, 194),
-                    fontSize: 18,
+                    fontSize: 16,
                   ),
                 ),
                 const SizedBox(height: 40.0),
