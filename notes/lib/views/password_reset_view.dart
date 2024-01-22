@@ -31,66 +31,180 @@ class _PasswordResetViewState extends State<PasswordResetView> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) async {
-          if (state is AuthStateForgotPassword) {
-            if (state.hasSentEmail) {
-              _controller.clear();
-              await showPasswordResetDialoog(context);
-            }
-            if (state.exception != null) {
-              // ignore: use_build_context_synchronously
-              await showErrorDialog(
-                context,
-                "We could not process your request. The email you provided is not registered to any account. Check and provide an already registered email account.",
-              );
-            }
+      listener: (context, state) async {
+        if (state is AuthStateForgotPassword) {
+          if (state.hasSentEmail) {
+            _controller.clear();
+            await showPasswordResetDialoog(context);
           }
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text("Forgot Password"),
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          if (state.exception != null) {
+            // ignore: use_build_context_synchronously
+            await showErrorDialog(
+              context,
+              "We could not process your request. The email you provided is not registered to any account. Check and provide an already registered email account.",
+            );
+          }
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Container(
+          height: double.infinity,
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 0, 0, 0), // Your navy blue shade
+                Color.fromARGB(255, 23, 22, 43), // Your grey shade
+              ],
+            ),
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 100, left: 30, right: 30),
             child: Column(
-              children: <Widget>[
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 const Text(
-                  "Did you forget your password? Please provide your email address and check it for a password reset link.",
+                  "Reset Password",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                  ),
                 ),
+                const SizedBox(height: 20.0),
+                const Text(
+                  "Did you forget your password? \nPlease provide your email address and check it for a password reset link.",
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 194, 194, 194),
+                    fontSize: 18,
+                  ),
+                ),
+                const SizedBox(height: 40.0),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  child: Text(
+                    "Email",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 194, 194, 194),
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 6.0),
                 TextField(
                   controller: _controller,
                   keyboardType: TextInputType.emailAddress,
                   autocorrect: false,
-                  autofocus: true,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: "Enter your email address",
+                    hintStyle: const TextStyle(
+                      color: Color.fromARGB(255, 154, 154, 154),
+                    ),
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.transparent),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 187, 187, 187),
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: const Color.fromARGB(255, 56, 56, 56),
                   ),
+                  style: const TextStyle(color: Colors.white),
+                  cursorColor: Colors.white,
                 ),
-                TextButton(
-                  onPressed: () {
-                    final email = _controller.text;
-                    context.read<AuthBloc>().add(
-                          AuthEventForgotPassword(
-                            email: email,
+                const SizedBox(height: 30),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(
+                            255,
+                            25,
+                            159,
+                            153,
                           ),
-                        );
-                  },
-                  child: const Text(
-                    "Send me the verification email",
-                  ),
+                          foregroundColor: Colors.white,
+                          minimumSize: const Size.fromHeight(50),
+                        ),
+                        onPressed: () {
+                          final email = _controller.text;
+                          context.read<AuthBloc>().add(
+                                AuthEventForgotPassword(
+                                  email: email,
+                                ),
+                              );
+                        },
+                        child: const Text(
+                          "RESET PASSWORD",
+                          style: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                TextButton(
-                  onPressed: () {
-                    context.read<AuthBloc>().add(const AuthEventLogout());
-                  },
-                  child: const Text(
-                    "Back to Login",
-                  ),
-                )
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "Back to",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                context.read<AuthBloc>().add(
+                                      const AuthEventLogout(),
+                                    );
+                              },
+                              child: const Text(
+                                "Login",
+                                style: TextStyle(fontSize: 18.0),
+                              ),
+                            ),
+                          ],
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            context.read<AuthBloc>().add(
+                                  const AuthEventLogout(),
+                                );
+                          },
+                          icon: Container(
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: const Color.fromARGB(255, 52, 52, 52),
+                                width: 1.0,
+                              ),
+                            ),
+                            child: const Icon(Icons.arrow_back_sharp),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
