@@ -4,6 +4,7 @@ import "package:notes/services/cloud/cloud_note.dart";
 import "package:notes/services/cloud/firebase_cloud_storage.dart";
 import "package:notes/utilities/generics/get_arguments.dart";
 import "package:notes/utilities/dialogs/sharing_dialog.dart";
+import "package:notes/views/temp_loading_page.dart";
 
 import "package:share_plus/share_plus.dart";
 
@@ -18,11 +19,13 @@ class _CreateOrUpdateNoteViewState extends State<CreateOrUpdateNoteView> {
   CloudNote? _note;
   late final FirebaseCloudStorage _noteService;
   late final TextEditingController _textController;
+  late final TextEditingController _titleController;
 
   @override
   void initState() {
     _noteService = FirebaseCloudStorage();
     _textController = TextEditingController();
+    _titleController = TextEditingController();
     super.initState();
   }
 
@@ -62,9 +65,26 @@ class _CreateOrUpdateNoteViewState extends State<CreateOrUpdateNoteView> {
     _textController.addListener(_textControllerListener);
   }
 
+  void _titleControllerListener() async {
+    final note = _note;
+    if (note == null) {
+      return;
+    }
+    final text = _textController.text;
+    await _noteService.updateNote(
+      documentId: note.documentId,
+      text: text,
+    );
+  }
+
+  void _setUpTitleControllerListener() {
+    _titleController.removeListener(_titleControllerListener);
+    _titleController.addListener(_titleControllerListener);
+  }
+
   void _deleteNoteIfEmpty() {
     final note = _note;
-    if (_textController.text.isEmpty && note != null) {
+    if (_textController.text.isEmpty && note != null && _titleController.text.isEmpty) {
       _noteService.deleteNote(documentId: note.documentId);
     }
   }
@@ -72,7 +92,8 @@ class _CreateOrUpdateNoteViewState extends State<CreateOrUpdateNoteView> {
   void _saveNoteIfTextIsNotEmpty() async {
     final note = _note;
     final text = _textController.text;
-    if (note != null && text.isNotEmpty) {
+    final title = _titleController.text;
+    if (note != null && text.isNotEmpty && title.isNotEmpty) {
       await _noteService.updateNote(
         documentId: note.documentId,
         text: text,
@@ -85,15 +106,18 @@ class _CreateOrUpdateNoteViewState extends State<CreateOrUpdateNoteView> {
     _deleteNoteIfEmpty();
     _saveNoteIfTextIsNotEmpty();
     _textController.dispose();
+    _titleController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 0, 37, 41),
+      // backgroundColor: const Color.fromARGB(255, 0, 22, 24), // A darker one.
       appBar: AppBar(
-        title: const Text("New Note"),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.white,
         actions: <Widget>[
           IconButton(
             onPressed: () async {
@@ -108,6 +132,11 @@ class _CreateOrUpdateNoteViewState extends State<CreateOrUpdateNoteView> {
               Icons.share,
             ),
           ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.more_vert),
+            iconSize: 30,
+          ),
         ],
       ),
       body: FutureBuilder(
@@ -116,16 +145,52 @@ class _CreateOrUpdateNoteViewState extends State<CreateOrUpdateNoteView> {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
               _setUpTextControllerListener();
-              return TextField(
-                controller: _textController,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                decoration: const InputDecoration(
-                  hintText: "Start typing your note...",
+              _setUpTitleControllerListener();
+              return Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: _titleController,
+                      keyboardType: TextInputType.text,
+                      maxLines: 1,
+                      maxLength: 50,
+                      decoration: const InputDecoration(
+                        hintText: "Title",
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 26.0,
+                        ),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        focusColor: Colors.white,
+                      ),
+                      style: const TextStyle(color: Colors.white),
+                      cursorColor: Colors.white,
+                    ),
+                    TextField(
+                      controller: _textController,
+                      keyboardType: TextInputType.multiline,
+                      autofocus: true,
+                      maxLines: null,
+                      decoration: const InputDecoration(
+                        hintText: "Type your note here...",
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 18.0,
+                        ),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        focusColor: Colors.white,
+                      ),
+                      style: const TextStyle(color: Colors.white),
+                      cursorColor: Colors.white,
+                    ),
+                  ],
                 ),
               );
             default:
-              return const CircularProgressIndicator();
+              return const TempLoadingPage();
           }
         },
       ),
