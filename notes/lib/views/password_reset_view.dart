@@ -120,38 +120,37 @@ class _PasswordResetViewState extends State<PasswordResetView> {
                 ),
                 const SizedBox(height: 30),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(
-                            255,
-                            25,
-                            159,
-                            153,
-                          ),
-                          foregroundColor: Colors.white,
-                          minimumSize: const Size.fromHeight(50),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(
+                          255,
+                          25,
+                          159,
+                          153,
                         ),
-                        onPressed: () {
-                          final email = _controller.text;
-                          context.read<AuthBloc>().add(
-                                AuthEventForgotPassword(
-                                  email: email,
-                                ),
-                              );
-                        },
-                        child: const Text(
-                          "RESET PASSWORD",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                          ),
+                        foregroundColor: Colors.white,
+                        // minimumSize: const Size.fromHeight(50),
+                      ),
+                      onPressed: () {
+                        final email = _controller.text;
+                        context.read<AuthBloc>().add(
+                              AuthEventForgotPassword(
+                                email: email,
+                              ),
+                            );
+                      },
+                      child: const Text(
+                        "RESET PASSWORD",
+                        style: TextStyle(
+                          fontSize: 16.0,
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
