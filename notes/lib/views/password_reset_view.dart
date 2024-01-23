@@ -54,8 +54,8 @@ class _PasswordResetViewState extends State<PasswordResetView> {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color.fromARGB(255, 0, 0, 0), // Your navy blue shade
-                Color.fromARGB(255, 6, 41, 37), // Your grey shade
+                Color.fromARGB(255, 0, 0, 0),
+                Color.fromARGB(255, 6, 41, 37),
               ],
               begin: Alignment.centerRight,
               end: Alignment.centerLeft,

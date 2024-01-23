@@ -10,6 +10,7 @@ import 'package:notes/views/notes/create_update_note.dart';
 import 'package:notes/views/notes/notes_view.dart';
 import 'package:notes/views/password_reset_view.dart';
 import 'package:notes/views/register_view.dart';
+import 'package:notes/views/temp_loading_page.dart';
 import 'package:notes/views/verify_email.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -71,11 +72,7 @@ class HomePage extends StatelessWidget {
         } else if (state is AuthStateForgotPassword) {
           return const PasswordResetView();
         } else {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          return const TempLoadingPage();
         }
       },
     );
