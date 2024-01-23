@@ -139,6 +139,23 @@ class _CreateOrUpdateNoteViewState extends State<CreateOrUpdateNoteView> {
           ),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color.fromARGB(255, 0, 22, 24),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.photo_camera),
+            label: "Camera",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.photo_library),
+            label: "Upload",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mic),
+            label: "Record",
+          ),
+        ],
+      ),
       body: FutureBuilder(
         future: createOrGetNote(context),
         builder: (context, snapshot) {
@@ -171,7 +188,7 @@ class _CreateOrUpdateNoteViewState extends State<CreateOrUpdateNoteView> {
                     TextField(
                       controller: _textController,
                       keyboardType: TextInputType.multiline,
-                      autofocus: true,
+                      autofocus: false,
                       maxLines: null,
                       decoration: const InputDecoration(
                         hintText: "Type your note here...",
