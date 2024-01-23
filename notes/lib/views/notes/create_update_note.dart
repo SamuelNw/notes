@@ -141,17 +141,19 @@ class _CreateOrUpdateNoteViewState extends State<CreateOrUpdateNoteView> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: const Color.fromARGB(255, 0, 22, 24),
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.photo_camera),
-            label: "Camera",
+            icon: Icon(Icons.photo_camera, size: 18),
+            label: "Take Photo",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.photo_library),
+            icon: Icon(Icons.photo_library, size: 18),
             label: "Upload",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.mic),
+            icon: Icon(Icons.mic, size: 18),
             label: "Record",
           ),
         ],
