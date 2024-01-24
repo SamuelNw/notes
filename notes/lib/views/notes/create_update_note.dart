@@ -7,6 +7,7 @@ import "package:notes/utilities/dialogs/sharing_dialog.dart";
 import "package:notes/views/temp_loading_page.dart";
 
 import "package:share_plus/share_plus.dart";
+import "package:intl/intl.dart";
 
 class CreateOrUpdateNoteView extends StatefulWidget {
   const CreateOrUpdateNoteView({super.key});
@@ -20,6 +21,9 @@ class _CreateOrUpdateNoteViewState extends State<CreateOrUpdateNoteView> {
   late final FirebaseCloudStorage _noteService;
   late final TextEditingController _textController;
   late final TextEditingController _titleController;
+
+  // Current time:
+  String formattedTime = DateFormat("h:mm a").format(DateTime.now());
 
   @override
   void initState() {
@@ -139,24 +143,46 @@ class _CreateOrUpdateNoteViewState extends State<CreateOrUpdateNoteView> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromARGB(255, 0, 22, 24),
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.photo_camera, size: 18),
-            label: "Take Photo",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.photo_library, size: 18),
-            label: "Upload",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.mic, size: 18),
-            label: "Record",
-          ),
-        ],
+      bottomNavigationBar: BottomAppBar(
+        elevation: 0.0,
+        color: Colors.transparent,
+        height: 40.0,
+        padding: EdgeInsets.zero,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.photo_camera,
+                size: 18,
+                color: Colors.white,
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.photo_library,
+                size: 18,
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              "Edited at $formattedTime",
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.mic,
+                size: 18,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
       ),
       body: FutureBuilder(
         future: createOrGetNote(context),
@@ -190,7 +216,7 @@ class _CreateOrUpdateNoteViewState extends State<CreateOrUpdateNoteView> {
                     TextField(
                       controller: _textController,
                       keyboardType: TextInputType.multiline,
-                      autofocus: false,
+                      autofocus: true,
                       maxLines: null,
                       decoration: const InputDecoration(
                         hintText: "Type your note here...",
