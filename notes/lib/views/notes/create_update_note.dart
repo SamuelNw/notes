@@ -143,47 +143,6 @@ class _CreateOrUpdateNoteViewState extends State<CreateOrUpdateNoteView> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        elevation: 0.0,
-        color: Colors.transparent,
-        height: 40.0,
-        padding: EdgeInsets.zero,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.photo_camera,
-                size: 18,
-                color: Colors.white,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.photo_library,
-                size: 18,
-                color: Colors.white,
-              ),
-            ),
-            Text(
-              "Edited at $formattedTime",
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.mic,
-                size: 18,
-                color: Colors.white,
-              ),
-            ),
-          ],
-        ),
-      ),
       body: FutureBuilder(
         future: createOrGetNote(context),
         builder: (context, snapshot) {
@@ -192,7 +151,11 @@ class _CreateOrUpdateNoteViewState extends State<CreateOrUpdateNoteView> {
               _setUpTextControllerListener();
               _setUpTitleControllerListener();
               return Padding(
-                padding: const EdgeInsets.all(30.0),
+                padding: const EdgeInsets.only(
+                  top: 20.0,
+                  left: 20.0,
+                  right: 20.0,
+                ),
                 child: Column(
                   children: [
                     TextField(
@@ -230,6 +193,42 @@ class _CreateOrUpdateNoteViewState extends State<CreateOrUpdateNoteView> {
                       ),
                       style: const TextStyle(color: Colors.white),
                       cursorColor: Colors.white,
+                    ),
+                    const Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.photo_camera,
+                            size: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.photo_library,
+                            size: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          "Edited at $formattedTime",
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.mic,
+                            size: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
