@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:notes/enums/create_update_menu_action.dart";
 import "package:notes/services/auth/auth_service.dart";
 import "package:notes/services/cloud/cloud_note.dart";
 import "package:notes/services/cloud/firebase_cloud_storage.dart";
@@ -136,10 +137,53 @@ class _CreateOrUpdateNoteViewState extends State<CreateOrUpdateNoteView> {
               Icons.share,
             ),
           ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.more_vert),
-            iconSize: 30,
+          PopupMenuButton<SubMenuAction>(
+            color: const Color.fromARGB(255, 0, 42, 46),
+            iconSize: 30.0,
+            onSelected: (value) {},
+            itemBuilder: (context) {
+              return const [
+                PopupMenuItem(
+                  value: SubMenuAction.delete,
+                  child: Row(
+                    children: [
+                      Icon(Icons.delete, color: Colors.white),
+                      SizedBox(width: 8.0),
+                      Text(
+                        "Delete",
+                        style: TextStyle(color: Colors.white, fontSize: 18.0),
+                      ),
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
+                  value: SubMenuAction.copy,
+                  child: Row(
+                    children: [
+                      Icon(Icons.copy, color: Colors.white),
+                      SizedBox(width: 8.0),
+                      Text(
+                        "Make a copy",
+                        style: TextStyle(color: Colors.white, fontSize: 18.0),
+                      ),
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
+                  value: SubMenuAction.delete,
+                  child: Row(
+                    children: [
+                      Icon(Icons.help_outline, color: Colors.white),
+                      SizedBox(width: 8.0),
+                      Text(
+                        "Help & Feedback",
+                        style: TextStyle(color: Colors.white, fontSize: 18.0),
+                      ),
+                    ],
+                  ),
+                ),
+              ];
+            },
           ),
         ],
       ),
