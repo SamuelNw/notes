@@ -9,6 +9,7 @@ import "package:notes/services/cloud/cloud_note.dart";
 import "package:notes/services/cloud/firebase_cloud_storage.dart";
 import "package:notes/utilities/dialogs/logout_dialog.dart";
 import "package:notes/views/notes/notes_list_view.dart";
+import "package:notes/views/temp_loading_page.dart";
 
 class NotesView extends StatefulWidget {
   const NotesView({super.key});
@@ -30,9 +31,11 @@ class _NotesViewState extends State<NotesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 0, 22, 24),
       appBar: AppBar(
         title: const Text("Your Notes"),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
             onPressed: () {
@@ -62,6 +65,23 @@ class _NotesViewState extends State<NotesView> {
           )
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: SizedBox.fromSize(
+        size: const Size.fromRadius(36.0),
+        child: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: const Color.fromARGB(255, 0, 42, 46),
+          foregroundColor: Colors.grey,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50.0),
+            side: const BorderSide(color: Colors.grey, width: 2.0),
+          ),
+          child: const Icon(
+            Icons.add_sharp,
+            size: 40.0,
+          ),
+        ),
+      ),
       body: StreamBuilder(
         stream: _noteService.allNotes(ownerUserId: userId),
         builder: (context, snapshot) {
@@ -84,14 +104,10 @@ class _NotesViewState extends State<NotesView> {
                       );
                     });
               } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                return const TempLoadingPage();
               }
             default:
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const TempLoadingPage();
           }
         },
       ),
