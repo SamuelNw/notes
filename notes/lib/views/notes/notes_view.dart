@@ -33,6 +33,8 @@ class _NotesViewState extends State<NotesView> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 0, 22, 24),
       appBar: AppBar(
+        leading: null,
+        automaticallyImplyLeading: false,
         title: const Text("Your Notes"),
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
