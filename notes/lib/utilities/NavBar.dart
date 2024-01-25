@@ -1,6 +1,10 @@
 // ignore_for_file: file_names
 
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:notes/services/auth/bloc/auth_bloc.dart";
+import "package:notes/services/auth/bloc/auth_event.dart";
+import "package:notes/utilities/dialogs/logout_dialog.dart";
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -48,21 +52,27 @@ class NavBar extends StatelessWidget {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(top: 10, left: 5, right: 5),
+          Padding(
+            padding: const EdgeInsets.only(top: 15, left: 10, right: 10),
             child: Column(
               children: [
                 ListTile(
-                  leading: Icon(Icons.notes, color: tileColor),
-                  title: Text(
+                  leading: const Icon(Icons.notes, color: Colors.white),
+                  selected: true,
+                  selectedColor: Colors.white,
+                  selectedTileColor: const Color.fromARGB(255, 0, 74, 81),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  title: const Text(
                     "All Notes",
                     style: TextStyle(
                       fontSize: 17.0,
                     ),
                   ),
-                  titleTextStyle: TextStyle(color: tileColor),
+                  titleTextStyle: const TextStyle(color: tileColor),
                 ),
-                ListTile(
+                const ListTile(
                   leading: Icon(Icons.note_add, color: tileColor),
                   title: Text(
                     "Create New Note",
@@ -72,7 +82,7 @@ class NavBar extends StatelessWidget {
                   ),
                   titleTextStyle: TextStyle(color: tileColor),
                 ),
-                ListTile(
+                const ListTile(
                   leading: Icon(Icons.settings, color: tileColor),
                   title: Text(
                     "Settings",
@@ -82,7 +92,7 @@ class NavBar extends StatelessWidget {
                   ),
                   titleTextStyle: TextStyle(color: tileColor),
                 ),
-                ListTile(
+                const ListTile(
                   leading: Icon(Icons.help_outline_rounded, color: tileColor),
                   title: Text(
                     "Help and Feedback",
@@ -93,15 +103,22 @@ class NavBar extends StatelessWidget {
                   titleTextStyle: TextStyle(color: tileColor),
                 ),
                 ListTile(
-                  leading: Icon(Icons.logout_outlined, color: tileColor),
-                  title: Text(
-                    "Sign Out",
-                    style: TextStyle(
-                      fontSize: 17.0,
+                    leading: const Icon(Icons.logout_outlined, color: tileColor),
+                    title: const Text(
+                      "Sign Out",
+                      style: TextStyle(
+                        fontSize: 17.0,
+                      ),
                     ),
-                  ),
-                  titleTextStyle: TextStyle(color: tileColor),
-                ),
+                    titleTextStyle: const TextStyle(color: tileColor),
+                    focusColor: const Color.fromARGB(255, 0, 74, 81),
+                    onTap: () async {
+                      final shouldLogout = await showLogOutDialog(context);
+                      if (shouldLogout) {
+                        // ignore: use_build_context_synchronously
+                        context.read<AuthBloc>().add(const AuthEventLogout());
+                      }
+                    }),
               ],
             ),
           ),
