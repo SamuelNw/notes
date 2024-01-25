@@ -7,6 +7,7 @@ import "package:notes/services/auth/bloc/auth_bloc.dart";
 import "package:notes/services/auth/bloc/auth_event.dart";
 import "package:notes/services/cloud/cloud_note.dart";
 import "package:notes/services/cloud/firebase_cloud_storage.dart";
+import 'package:notes/utilities/NavBar.dart';
 import "package:notes/utilities/dialogs/logout_dialog.dart";
 import "package:notes/views/notes/notes_list_view.dart";
 import "package:notes/views/temp_loading_page.dart";
@@ -32,14 +33,15 @@ class _NotesViewState extends State<NotesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 0, 22, 24),
+      drawer: const Drawer(),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.only(top: 5, bottom: 5),
           child: Container(
             padding: const EdgeInsets.only(
-              left: 16,
-              right: 16,
+              left: 10,
+              right: 10,
             ),
             height: 50.0,
             decoration: BoxDecoration(
@@ -49,13 +51,25 @@ class _NotesViewState extends State<NotesView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Icon(Icons.menu),
+                Builder(builder: (context) {
+                  return IconButton(
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                    icon: const Icon(Icons.menu),
+                  );
+                }),
                 const SizedBox(width: 12),
                 const Expanded(
-                  child: Text(
-                    "Search your notes",
-                    style: TextStyle(
+                  child: CupertinoTextField(
+                    placeholder: "Search your notes",
+                    placeholderStyle: TextStyle(
+                      color: Color.fromARGB(255, 207, 207, 207),
+                      fontFamily: "Jost",
                       fontSize: 16.0,
+                    ),
+                    cursorColor: Colors.white,
+                    decoration: BoxDecoration(color: Colors.transparent),
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 207, 207, 207),
                     ),
                   ),
                 ),
