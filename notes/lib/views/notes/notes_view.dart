@@ -74,7 +74,7 @@ class _NotesViewState extends State<NotesView> {
           foregroundColor: Colors.grey,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50.0),
-            side: const BorderSide(color: Colors.grey, width: 2.0),
+            side: const BorderSide(color: Colors.grey, width: 1.0),
           ),
           child: const Icon(
             Icons.add_sharp,
