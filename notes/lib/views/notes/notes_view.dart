@@ -33,7 +33,7 @@ class _NotesViewState extends State<NotesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 0, 22, 24),
-      drawer: const Drawer(),
+      drawer: const NavBar(),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Padding(
