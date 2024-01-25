@@ -1,7 +1,7 @@
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:notes/constants/routes.dart";
-import "package:notes/enums/menu_action.dart";
 import "package:notes/services/auth/auth_service.dart";
 import "package:notes/services/auth/bloc/auth_bloc.dart";
 import "package:notes/services/auth/bloc/auth_event.dart";
@@ -33,33 +33,50 @@ class _NotesViewState extends State<NotesView> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 0, 22, 24),
       appBar: AppBar(
-        leading: null,
         automaticallyImplyLeading: false,
-        title: const Text("Your Notes"),
+        title: Padding(
+          padding: const EdgeInsets.only(top: 5, bottom: 5),
+          child: Container(
+            padding: const EdgeInsets.only(
+              left: 16,
+              right: 16,
+            ),
+            height: 50.0,
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 0, 42, 46),
+              borderRadius: BorderRadius.circular(50),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Icon(Icons.menu),
+                const SizedBox(width: 12),
+                const Expanded(
+                  child: Text(
+                    "Search your notes",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () async {
+                    final shouldLogout = await showLogOutDialog(context);
+                    if (shouldLogout) {
+                      // ignore: use_build_context_synchronously
+                      context.read<AuthBloc>().add(const AuthEventLogout());
+                    }
+                  },
+                  icon: const Icon(
+                    Icons.logout_outlined,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         backgroundColor: Colors.transparent,
-        foregroundColor: Colors.white,
-        actions: [
-          PopupMenuButton<MenuAction>(
-            onSelected: (value) async {
-              switch (value) {
-                case MenuAction.logout:
-                  final shouldLogout = await showLogOutDialog(context);
-                  if (shouldLogout) {
-                    // ignore: use_build_context_synchronously
-                    context.read<AuthBloc>().add(const AuthEventLogout());
-                  }
-              }
-            },
-            itemBuilder: (context) {
-              return const [
-                PopupMenuItem<MenuAction>(
-                  value: MenuAction.logout,
-                  child: Text("Log out"),
-                )
-              ];
-            },
-          )
-        ],
+        foregroundColor: const Color.fromARGB(255, 207, 207, 207),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: SizedBox.fromSize(
@@ -72,10 +89,14 @@ class _NotesViewState extends State<NotesView> {
           foregroundColor: Colors.grey,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50.0),
-            side: const BorderSide(color: Colors.grey, width: 1.0),
+            side: const BorderSide(
+              color: Color.fromARGB(255, 207, 207, 207),
+              width: 1.0,
+            ),
           ),
           child: const Icon(
             Icons.add_sharp,
+            color: Color.fromARGB(255, 207, 207, 207),
             size: 40.0,
           ),
         ),
