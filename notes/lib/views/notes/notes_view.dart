@@ -37,12 +37,6 @@ class _NotesViewState extends State<NotesView> {
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(createOrUpdateNoteRoute);
-            },
-            icon: const Icon(Icons.add),
-          ),
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
               switch (value) {
@@ -69,7 +63,9 @@ class _NotesViewState extends State<NotesView> {
       floatingActionButton: SizedBox.fromSize(
         size: const Size.fromRadius(36.0),
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed(createOrUpdateNoteRoute);
+          },
           backgroundColor: const Color.fromARGB(255, 0, 42, 46),
           foregroundColor: Colors.grey,
           shape: RoundedRectangleBorder(
