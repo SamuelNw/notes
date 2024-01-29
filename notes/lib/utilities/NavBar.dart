@@ -2,6 +2,7 @@
 
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:notes/constants/routes.dart";
 import "package:notes/services/auth/bloc/auth_bloc.dart";
 import "package:notes/services/auth/bloc/auth_event.dart";
 import "package:notes/utilities/dialogs/logout_dialog.dart";
@@ -57,7 +58,11 @@ class NavBar extends StatelessWidget {
             child: Column(
               children: [
                 ListTile(
-                  leading: const Icon(Icons.notes, color: Colors.white),
+                  leading: const Icon(
+                    Icons.notes,
+                    color: Colors.white,
+                    size: 16.0,
+                  ),
                   selected: true,
                   selectedColor: Colors.white,
                   selectedTileColor: const Color.fromARGB(255, 0, 74, 81),
@@ -67,47 +72,67 @@ class NavBar extends StatelessWidget {
                   title: const Text(
                     "All Notes",
                     style: TextStyle(
-                      fontSize: 17.0,
+                      fontSize: 16.0,
                     ),
                   ),
                   titleTextStyle: const TextStyle(color: tileColor),
                 ),
-                const ListTile(
-                  leading: Icon(Icons.note_add, color: tileColor),
-                  title: Text(
+                ListTile(
+                  leading: const Icon(
+                    Icons.note_add,
+                    color: tileColor,
+                    size: 16.0,
+                  ),
+                  title: const Text(
                     "Create New Note",
                     style: TextStyle(
-                      fontSize: 17.0,
+                      fontSize: 16.0,
                     ),
                   ),
-                  titleTextStyle: TextStyle(color: tileColor),
+                  titleTextStyle: const TextStyle(color: tileColor),
+                  focusColor: const Color.fromARGB(255, 0, 74, 81),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(createOrUpdateNoteRoute);
+                  },
                 ),
                 const ListTile(
-                  leading: Icon(Icons.settings, color: tileColor),
+                  leading: Icon(
+                    Icons.settings,
+                    color: tileColor,
+                    size: 16.0,
+                  ),
                   title: Text(
                     "Settings",
                     style: TextStyle(
-                      fontSize: 17.0,
+                      fontSize: 16.0,
                     ),
                   ),
                   titleTextStyle: TextStyle(color: tileColor),
                 ),
                 const ListTile(
-                  leading: Icon(Icons.help_outline_rounded, color: tileColor),
+                  leading: Icon(
+                    Icons.help_outline_rounded,
+                    color: tileColor,
+                    size: 16.0,
+                  ),
                   title: Text(
                     "Help and Feedback",
                     style: TextStyle(
-                      fontSize: 17.0,
+                      fontSize: 16.0,
                     ),
                   ),
                   titleTextStyle: TextStyle(color: tileColor),
                 ),
                 ListTile(
-                    leading: const Icon(Icons.logout_outlined, color: tileColor),
+                    leading: const Icon(
+                      Icons.logout_outlined,
+                      color: tileColor,
+                      size: 16.0,
+                    ),
                     title: const Text(
                       "Sign Out",
                       style: TextStyle(
-                        fontSize: 17.0,
+                        fontSize: 16.0,
                       ),
                     ),
                     titleTextStyle: const TextStyle(color: tileColor),
