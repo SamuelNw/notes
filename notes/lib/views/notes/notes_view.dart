@@ -1,6 +1,7 @@
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:notes/constants/dummy_notes.dart";
 import "package:notes/constants/routes.dart";
 import "package:notes/services/auth/auth_service.dart";
 import "package:notes/services/auth/bloc/auth_bloc.dart";
@@ -9,8 +10,10 @@ import "package:notes/services/cloud/cloud_note.dart";
 import "package:notes/services/cloud/firebase_cloud_storage.dart";
 import 'package:notes/utilities/NavBar.dart';
 import "package:notes/utilities/dialogs/logout_dialog.dart";
+import "package:notes/views/notes/note_item.dart";
 import "package:notes/views/notes/notes_list_view.dart";
 import "package:notes/views/temp_loading_page.dart";
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class NotesView extends StatefulWidget {
   const NotesView({super.key});
@@ -22,6 +25,7 @@ class NotesView extends StatefulWidget {
 class _NotesViewState extends State<NotesView> {
   late final FirebaseCloudStorage _noteService;
   String get userId => AuthService.firebase().currentUser!.id;
+  final dummyNotes = listNotes;
 
   @override
   void initState() {
@@ -115,34 +119,56 @@ class _NotesViewState extends State<NotesView> {
           ),
         ),
       ),
-      body: StreamBuilder(
-        stream: _noteService.allNotes(ownerUserId: userId),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-            case ConnectionState.active:
-              if (snapshot.hasData) {
-                final allNotes = snapshot.data as Iterable<CloudNote>;
-                return NotesListView(
-                    notes: allNotes,
-                    onDeleteNote: (note) async {
-                      await _noteService.deleteNote(
-                        documentId: note.documentId,
-                      );
-                    },
-                    onTap: (note) {
-                      Navigator.of(context).pushNamed(
-                        createOrUpdateNoteRoute,
-                        arguments: note,
-                      );
-                    });
-              } else {
-                return const TempLoadingPage();
-              }
-            default:
-              return const TempLoadingPage();
-          }
-        },
+      // body: StreamBuilder(
+      //   stream: _noteService.allNotes(ownerUserId: userId),
+      //   builder: (context, snapshot) {
+      //     switch (snapshot.connectionState) {
+      //       case ConnectionState.waiting:
+      //       case ConnectionState.active:
+      //         if (snapshot.hasData) {
+      //           final allNotes = snapshot.data as Iterable<CloudNote>;
+      //           return NotesListView(
+      //               notes: allNotes,
+      //               onDeleteNote: (note) async {
+      //                 await _noteService.deleteNote(
+      //                   documentId: note.documentId,
+      //                 );
+      //               },
+      //               onTap: (note) {
+      //                 Navigator.of(context).pushNamed(
+      //                   createOrUpdateNoteRoute,
+      //                   arguments: note,
+      //                 );
+      //               });
+      //         } else {
+      //           return const TempLoadingPage();
+      //         }
+      //       default:
+      //         return const TempLoadingPage();
+      //     }
+      //   },
+      // ),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: MasonryGridView.builder(
+          gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+          ),
+          itemCount: dummyNotes.length,
+          itemBuilder: (context, index) {
+            final note = dummyNotes.elementAt(index);
+            return Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: NoteItem(
+                noteTitle: note["title"],
+                noteBody: note["body"],
+                noteTag: note["tag"],
+                createdAt: note["date"],
+                noteImageLink: note["image"],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
