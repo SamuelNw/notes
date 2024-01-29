@@ -59,7 +59,7 @@ final List listNotes = [
     "title": "Financial Goals",
     "body": "Review and update monthly budget and savings plan.",
     "date": "29 Aug 23",
-    "image": "None",
+    "image": "https://imageio.forbes.com/specials-images/imageserve/63f106fb2a7047b942afaaf6/Setting-Financial-Goals-And-Achieving-Them/960x0.jpg?format=jpg&width=960",
     "tag": "finance"
   },
   {
@@ -87,7 +87,7 @@ final List listNotes = [
     "title": "Family Gathering",
     "body": "Coordinate with family for a get-together on Sunday.",
     "date": "10 Sep 23",
-    "image": "None",
+    "image": "https://goop-img.com/wp-content/uploads/2016/12/holidays-GS01061634.jpg",
     "tag": "family"
   },
   {
