@@ -36,6 +36,7 @@ class _NotesViewState extends State<NotesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: const Color.fromARGB(255, 0, 22, 24),
       drawer: const NavBar(),
       appBar: AppBar(
@@ -93,7 +94,7 @@ class _NotesViewState extends State<NotesView> {
             ),
           ),
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent.withOpacity(0.3),
         foregroundColor: const Color.fromARGB(255, 207, 207, 207),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
