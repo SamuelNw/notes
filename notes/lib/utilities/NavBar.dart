@@ -61,7 +61,7 @@ class NavBar extends StatelessWidget {
                   leading: const Icon(
                     Icons.notes,
                     color: Colors.white,
-                    size: 16.0,
+                    size: 18.0,
                   ),
                   selected: true,
                   selectedColor: Colors.white,
@@ -81,7 +81,7 @@ class NavBar extends StatelessWidget {
                   leading: const Icon(
                     Icons.note_add,
                     color: tileColor,
-                    size: 16.0,
+                    size: 18.0,
                   ),
                   title: const Text(
                     "Create New Note",
@@ -89,51 +89,71 @@ class NavBar extends StatelessWidget {
                       fontSize: 16.0,
                     ),
                   ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
                   titleTextStyle: const TextStyle(color: tileColor),
                   focusColor: const Color.fromARGB(255, 0, 74, 81),
                   onTap: () {
                     Navigator.of(context).pushNamed(createOrUpdateNoteRoute);
                   },
                 ),
-                const ListTile(
-                  leading: Icon(
+                ListTile(
+                  leading: const Icon(
                     Icons.settings,
                     color: tileColor,
-                    size: 16.0,
+                    size: 18.0,
                   ),
-                  title: Text(
+                  title: const Text(
                     "Settings",
                     style: TextStyle(
                       fontSize: 16.0,
                     ),
                   ),
-                  titleTextStyle: TextStyle(color: tileColor),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  titleTextStyle: const TextStyle(color: tileColor),
+                  focusColor: const Color.fromARGB(255, 0, 74, 81),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(settingsPageRoute);
+                  },
                 ),
-                const ListTile(
-                  leading: Icon(
+                ListTile(
+                  leading: const Icon(
                     Icons.help_outline_rounded,
                     color: tileColor,
-                    size: 16.0,
+                    size: 18.0,
                   ),
-                  title: Text(
+                  title: const Text(
                     "Help and Feedback",
                     style: TextStyle(
                       fontSize: 16.0,
                     ),
                   ),
-                  titleTextStyle: TextStyle(color: tileColor),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  titleTextStyle: const TextStyle(color: tileColor),
+                  focusColor: const Color.fromARGB(255, 0, 74, 81),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(helpAndFeedbackPageRoute);
+                  },
                 ),
                 ListTile(
                     leading: const Icon(
                       Icons.logout_outlined,
                       color: tileColor,
-                      size: 16.0,
+                      size: 18.0,
                     ),
                     title: const Text(
                       "Sign Out",
                       style: TextStyle(
                         fontSize: 16.0,
                       ),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
                     ),
                     titleTextStyle: const TextStyle(color: tileColor),
                     focusColor: const Color.fromARGB(255, 0, 74, 81),
