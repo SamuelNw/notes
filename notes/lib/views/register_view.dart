@@ -16,6 +16,8 @@ class RegisterView extends StatefulWidget {
 class _RegisterViewState extends State<RegisterView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
+  late final TextEditingController _firstName;
+  late final TextEditingController _lastName;
 
   bool _isPasswordHidden = true;
 
@@ -23,6 +25,8 @@ class _RegisterViewState extends State<RegisterView> {
   void initState() {
     _email = TextEditingController();
     _password = TextEditingController();
+    _firstName = TextEditingController();
+    _lastName = TextEditingController();
     super.initState();
   }
 
@@ -30,6 +34,8 @@ class _RegisterViewState extends State<RegisterView> {
   void dispose() {
     _email.dispose();
     _password.dispose();
+    _firstName.dispose();
+    _lastName.dispose();
     super.dispose();
   }
 
@@ -71,7 +77,7 @@ class _RegisterViewState extends State<RegisterView> {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Padding(
-            padding: const EdgeInsets.only(top: 0, bottom: 50.0),
+            padding: const EdgeInsets.only(top: 0, bottom: 0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
@@ -97,12 +103,98 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 80.0),
+                const SizedBox(height: 60.0),
                 Padding(
-                  padding: const EdgeInsets.all(30.0),
+                  padding: const EdgeInsets.all(24.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              title: Transform(
+                                transform: Matrix4.translationValues(12.0, -5.0, 0.0),
+                                child: const Text(
+                                  "First Name",
+                                  style: TextStyle(
+                                    fontSize: 19.0,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              subtitle: TextField(
+                                controller: _firstName,
+                                keyboardType: TextInputType.name,
+                                enableSuggestions: false,
+                                autocorrect: false,
+                                autofocus: false,
+                                decoration: InputDecoration(
+                                  hintText: "Enter first name",
+                                  hintStyle: const TextStyle(color: Colors.grey),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0,
+                                    vertical: 20.0,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    borderSide: const BorderSide(color: Colors.white),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    borderSide: const BorderSide(color: Colors.white),
+                                  ),
+                                ),
+                                style: const TextStyle(color: Colors.white),
+                                cursorColor: Colors.white,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12.0),
+                          Expanded(
+                            child: ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              title: Transform(
+                                transform: Matrix4.translationValues(12.0, -5.0, 0.0),
+                                child: const Text(
+                                  "Last Name",
+                                  style: TextStyle(
+                                    fontSize: 19.0,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              subtitle: TextField(
+                                controller: _lastName,
+                                keyboardType: TextInputType.name,
+                                enableSuggestions: false,
+                                autocorrect: false,
+                                autofocus: false,
+                                decoration: InputDecoration(
+                                  hintText: "Enter last name",
+                                  hintStyle: const TextStyle(color: Colors.grey),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0,
+                                    vertical: 20.0,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    borderSide: const BorderSide(color: Colors.white),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    borderSide: const BorderSide(color: Colors.white),
+                                  ),
+                                ),
+                                style: const TextStyle(color: Colors.white),
+                                cursorColor: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8.0),
                       Transform(
                         transform: Matrix4.translationValues(12.0, 0.0, 0.0),
                         child: const Text(
@@ -139,7 +231,7 @@ class _RegisterViewState extends State<RegisterView> {
                         style: const TextStyle(color: Colors.white),
                         cursorColor: Colors.white,
                       ),
-                      const SizedBox(height: 20.0),
+                      const SizedBox(height: 12.0),
                       Transform(
                         transform: Matrix4.translationValues(12.0, 0.0, 0.0),
                         child: const Text(
