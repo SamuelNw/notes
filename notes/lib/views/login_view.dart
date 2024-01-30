@@ -17,6 +17,8 @@ class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
 
+  bool _isPasswordHidden = true;
+
   @override
   void initState() {
     _email = TextEditingController();
@@ -145,7 +147,7 @@ class _LoginViewState extends State<LoginView> {
                       const SizedBox(height: 4.0),
                       TextField(
                         controller: _password,
-                        obscureText: true,
+                        obscureText: _isPasswordHidden,
                         enableSuggestions: false,
                         autocorrect: false,
                         decoration: InputDecoration(
@@ -163,6 +165,7 @@ class _LoginViewState extends State<LoginView> {
                             borderRadius: BorderRadius.circular(30),
                             borderSide: const BorderSide(color: Colors.white),
                           ),
+                          suffixIcon: togglePassword(),
                         ),
                         style: const TextStyle(color: Colors.white),
                         cursorColor: Colors.white,
@@ -251,6 +254,24 @@ class _LoginViewState extends State<LoginView> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget togglePassword() {
+    return IconButton(
+      onPressed: () {
+        setState(() {
+          _isPasswordHidden = !_isPasswordHidden;
+        });
+      },
+      icon: _isPasswordHidden
+          ? const Icon(
+              Icons.visibility_outlined,
+            )
+          : const Icon(
+              Icons.visibility_off_outlined,
+            ),
+      color: const Color.fromARGB(255, 144, 144, 144),
     );
   }
 }

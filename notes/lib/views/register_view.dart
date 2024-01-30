@@ -17,6 +17,8 @@ class _RegisterViewState extends State<RegisterView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
 
+  bool _isPasswordHidden = true;
+
   @override
   void initState() {
     _email = TextEditingController();
@@ -151,7 +153,7 @@ class _RegisterViewState extends State<RegisterView> {
                       const SizedBox(height: 4.0),
                       TextField(
                         controller: _password,
-                        obscureText: true,
+                        obscureText: _isPasswordHidden,
                         enableSuggestions: false,
                         autocorrect: false,
                         decoration: InputDecoration(
@@ -169,6 +171,7 @@ class _RegisterViewState extends State<RegisterView> {
                             borderRadius: BorderRadius.circular(30),
                             borderSide: const BorderSide(color: Colors.white),
                           ),
+                          suffixIcon: togglePasswordHidden(),
                         ),
                         style: const TextStyle(color: Colors.white),
                         cursorColor: Colors.white,
@@ -238,6 +241,24 @@ class _RegisterViewState extends State<RegisterView> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget togglePasswordHidden() {
+    return IconButton(
+      onPressed: () {
+        setState(() {
+          _isPasswordHidden = !_isPasswordHidden;
+        });
+      },
+      icon: _isPasswordHidden
+          ? const Icon(
+              Icons.visibility_outlined,
+            )
+          : const Icon(
+              Icons.visibility_off_outlined,
+            ),
+      color: const Color.fromARGB(255, 144, 144, 144),
     );
   }
 }
