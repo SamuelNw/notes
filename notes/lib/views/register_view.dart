@@ -286,8 +286,15 @@ class _RegisterViewState extends State<RegisterView> {
                             onPressed: () async {
                               final email = _email.text;
                               final password = _password.text;
+                              final firstName = _firstName.text;
+                              final lastName = _lastName.text;
                               context.read<AuthBloc>().add(
-                                    AuthEventRegister(email, password),
+                                    AuthEventRegister(
+                                      email,
+                                      password,
+                                      firstName,
+                                      lastName,
+                                    ),
                                   );
                             },
                             child: const Text(

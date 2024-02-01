@@ -12,10 +12,14 @@ class AuthService implements FirebaseAuthProvider {
   Future<AuthUser> createUser({
     required String email,
     required String password,
+    required String firstName,
+    required String lastName,
   }) =>
       provider.createUser(
         email: email,
         password: password,
+        firstName: '',
+        lastName: '',
       );
 
   @override

@@ -1,3 +1,4 @@
+import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:notes/firebase_options.dart";
 import "package:notes/services/auth/auth_provider.dart";
@@ -12,12 +13,21 @@ class FirebaseAuthProvider implements AuthProvider {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+
+    // Update the user email verification in the store:
+    FirebaseAuth.instance.userChanges().listen((user) {
+      if (user != null && user.emailVerified) {
+        _updateUserVerificationStatus(user.uid);
+      }
+    });
   }
 
   @override
   Future<AuthUser> createUser({
     required String email,
     required String password,
+    required String firstName,
+    required String lastName,
   }) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -25,8 +35,26 @@ class FirebaseAuthProvider implements AuthProvider {
         password: password,
       );
       final user = currentUser;
+
       if (user != null) {
-        return user;
+        final uid = user.id;
+        //Add user's first and last name to firestore:
+        await FirebaseFirestore.instance.collection("users").doc(uid).set({
+          "firstName": firstName,
+          "lastName": lastName,
+          "email": email,
+          "id": uid,
+          "isEmailVerified": user.isEmailVerified,
+        });
+
+        //return custom auth user:
+        return AuthUser(
+          id: uid,
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          isEmailVerified: user.isEmailVerified,
+        );
       } else {
         throw UserNotLoggedInAuthException();
       }
@@ -110,5 +138,11 @@ class FirebaseAuthProvider implements AuthProvider {
     } catch (_) {
       throw GenericAuthException();
     }
+  }
+
+  Future<void> _updateUserVerificationStatus(String uid) async {
+    await FirebaseFirestore.instance.collection("users").doc(uid).update({
+      "isEmailVerified": true,
+    });
   }
 }
