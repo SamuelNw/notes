@@ -13,13 +13,6 @@ class FirebaseAuthProvider implements AuthProvider {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-
-    // Update the user email verification in the store:
-    FirebaseAuth.instance.userChanges().listen((user) {
-      if (user != null && user.emailVerified) {
-        _updateUserVerificationStatus(user.uid);
-      }
-    });
   }
 
   @override
@@ -138,11 +131,5 @@ class FirebaseAuthProvider implements AuthProvider {
     } catch (_) {
       throw GenericAuthException();
     }
-  }
-
-  Future<void> _updateUserVerificationStatus(String uid) async {
-    await FirebaseFirestore.instance.collection("users").doc(uid).update({
-      "isEmailVerified": true,
-    });
   }
 }
