@@ -16,6 +16,7 @@ class _LandingScreenState extends State<LandingScreen> {
         children: [
           Container(
             decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 29, 28, 28),
               image: DecorationImage(
                 image: AssetImage("assets/view_bgs/initial_bg.jpg"),
                 fit: BoxFit.fill,

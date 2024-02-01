@@ -99,7 +99,7 @@ class _NotesViewState extends State<NotesView> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: SizedBox.fromSize(
-        size: const Size.fromRadius(36.0),
+        size: const Size.fromRadius(32.0),
         child: FloatingActionButton(
           onPressed: () {
             Navigator.of(context).pushNamed(createOrUpdateNoteRoute);
