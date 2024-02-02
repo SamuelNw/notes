@@ -16,14 +16,16 @@ class NavBar extends StatelessWidget {
     const String accountBg = "http://tinyurl.com/45jpzx62";
     const Color tileColor = Color.fromARGB(255, 207, 207, 207);
 
+    final currentUser = context.select((AuthBloc bloc) => bloc.state.user);
+
     return Drawer(
       backgroundColor: const Color.fromARGB(255, 0, 42, 46),
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountEmail: const Text("johndoe@email.com"),
-            accountName: const Text("John Doe"),
+            accountEmail: Text(currentUser.email),
+            accountName: const Text(""),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
                 child: Image.network(

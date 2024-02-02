@@ -12,6 +12,8 @@ abstract class AuthState {
     required this.isLoading,
     this.loadingText = "Please wait a moment",
   });
+
+  get user => null;
 }
 
 class AuthStateUninitialized extends AuthState {
@@ -37,6 +39,7 @@ class AuthStateForgotPassword extends AuthState {
 }
 
 class AuthStateLoggedIn extends AuthState {
+  @override
   final AuthUser user;
   const AuthStateLoggedIn({
     required this.user,
