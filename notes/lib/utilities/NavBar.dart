@@ -26,7 +26,7 @@ class NavBar extends StatelessWidget {
           UserAccountsDrawerHeader(
             accountEmail: Text(
               currentUser.email,
-              style: const TextStyle(fontSize: 21),
+              style: const TextStyle(fontSize: 19),
             ),
             accountName: const Text(""),
             currentAccountPicture: CircleAvatar(
